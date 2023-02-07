@@ -1,21 +1,34 @@
-import type { NextPage } from "next";
-import { useEffect, useMemo } from "react";
+import type { NextPage, NextPageContext } from "next";
 
-import { signIn, useSession, signOut } from "next-auth/react";
+import { useEffect, useMemo } from "react";
+import Chat from "../components/Chat/Chat";
+import Auth from "../components/Auth/Auth";
+
+import { useSession, getSession } from "next-auth/react";
 
 const Home: NextPage = () => {
-  const { data, status } = useSession();
+  const { data: session, status } = useSession();
+  const reloadSession = () => {};
 
   return (
     <div>
-      {data?.user?.name}
-      {data?.user ? (
-        <button onClick={() => signOut()}>Logout</button>
+      {session?.user?.username ? (
+        <Chat />
       ) : (
-        <button onClick={() => signIn("google")}>SignIn</button>
+        <Auth session={session} reloadSession={reloadSession} />
       )}
     </div>
   );
 };
 
 export default Home;
+
+export async function getServerSideProps(context: NextPageContext) {
+  const session = await getSession(context);
+
+  return {
+    props: {
+      session,
+    },
+  };
+}
