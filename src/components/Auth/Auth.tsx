@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 import UserOperations from "../../graphql/operations/user";
 import { useMutation } from "@apollo/client";
 
+import { toast } from "react-hot-toast";
+
 import {
   IAuthProps,
   CreateUsernameData,
@@ -37,8 +39,10 @@ const Auth: React.FC<IAuthProps> = ({ session, reloadSession }) => {
 
       // reload session to add new Username
       reloadSession();
+      toast.success("Username Added!");
     } catch (error: any) {
       console.log(error?.message);
+      toast.error(error?.message);
     }
   };
   return (
