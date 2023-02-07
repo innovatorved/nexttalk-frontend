@@ -1,21 +1,44 @@
 import { Button, Center, Image, Input, Stack, Text } from "@chakra-ui/react";
 import { signIn } from "next-auth/react";
 
-import { Session } from "next-auth";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-interface IAuthProps {
-  session: Session | null;
-  reloadSession: () => void;
-}
+import UserOperations from "../../graphql/operations/user";
+import { useMutation } from "@apollo/client";
+
+import {
+  IAuthProps,
+  CreateUsernameData,
+  CreateUsernameVariables,
+} from "../../util/types";
 
 const Auth: React.FC<IAuthProps> = ({ session, reloadSession }) => {
-  const [username, setUsername] = useState("");
+  const [username, setUsername] = useState<string>("");
+
+  const [createUsername, { loading, error }] = useMutation<
+    CreateUsernameData,
+    CreateUsernameVariables
+  >(UserOperations.Mutations.createUsername);
+
   const onSubmit = async () => {
+    if (!username) return;
     try {
       // GraphQl mutation for username
-    } catch (error) {
-      console.log(error);
+      const { data } = await createUsername({ variables: { username } });
+      if (!data?.createUsername) {
+        throw new Error("Error Occurred in Saving Username");
+      }
+      if (data.createUsername.error) {
+        const {
+          createUsername: { error },
+        } = data;
+        throw new Error(error);
+      }
+
+      // reload session to add new Username
+      reloadSession();
+    } catch (error: any) {
+      console.log(error?.message);
     }
   };
   return (

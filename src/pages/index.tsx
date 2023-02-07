@@ -8,7 +8,10 @@ import { useSession, getSession } from "next-auth/react";
 
 const Home: NextPage = () => {
   const { data: session, status } = useSession();
-  const reloadSession = () => {};
+  const reloadSession = () => {
+    const event = new Event("visibilitychange");
+    document.dispatchEvent(event);
+  };
 
   return (
     <div>
