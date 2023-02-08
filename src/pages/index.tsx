@@ -16,7 +16,7 @@ const Home: NextPage = () => {
   return (
     <div>
       {session?.user?.username ? (
-        <Chat />
+        <Chat session={session} />
       ) : (
         <Auth session={session} reloadSession={reloadSession} />
       )}
