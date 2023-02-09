@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "pretify": "prettier --write ."
   },
   "dependencies": {
     "@apollo/client": "^3.7.7",
@@ -31,6 +32,7 @@
     "typescript": "4.9.5"
   },
   "devDependencies": {
+    "prettier": "^2.8.4",
     "prisma": "^4.9.0"
   }
 }
