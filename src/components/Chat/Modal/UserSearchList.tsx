@@ -2,11 +2,13 @@ import { Avatar, Button, Flex, Stack, Text } from "@chakra-ui/react";
 import { SearchedUser } from "../../../util/types";
 
 interface UserSearchListProps {
+  participants: Array<SearchedUser>;
   users: Array<SearchedUser>;
   addParticipant: (user: SearchedUser) => void;
 }
 
 const UserSearchList: React.FC<UserSearchListProps> = ({
+  participants,
   users,
   addParticipant,
 }) => {
@@ -29,18 +31,34 @@ const UserSearchList: React.FC<UserSearchListProps> = ({
               borderRadius={4}
               _hover={{ bg: "whiteAlpha.200" }}
             >
-              <Avatar src={user?.image} />
+              <Avatar
+                src={
+                  user?.image && `https://images.weserv.nl/?url=${user?.image}`
+                }
+                referrerPolicy="no-referrer"
+              />
               <Flex justify="space-between" align="center" width="100%">
                 <Text color="whiteAlpha.700">{user.username}</Text>
-                <Button
-                  bg="brand.100"
-                  _hover={{ bg: "brand.100" }}
-                  onClick={() => {
-                    addParticipant(user);
-                  }}
-                >
-                  Select
-                </Button>
+                {participants.some((u) => u.id === user.id) ? (
+                  <Button
+                    bg="brand.100"
+                    _hover={{ bg: "brand.100" }}
+                    cursor="initial"
+                    disabled={true}
+                  >
+                    Selected
+                  </Button>
+                ) : (
+                  <Button
+                    bg="brand.100"
+                    _hover={{ bg: "brand.100" }}
+                    onClick={() => {
+                      addParticipant(user);
+                    }}
+                  >
+                    Select
+                  </Button>
+                )}
               </Flex>
             </Stack>
           ))}

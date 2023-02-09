@@ -1,4 +1,5 @@
 import { extendTheme, ThemeConfig } from "@chakra-ui/react";
+import { closeButtonTheme } from "./CloseButton";
 
 const config: ThemeConfig = {
   initialColorMode: "dark",
@@ -15,12 +16,17 @@ const theme = extendTheme(
         100: "#3d84f7",
       },
     },
+
     styles: {
       global: () => ({
         body: {
           bg: "whiteAlpha.200",
         },
       }),
+    },
+
+    components: {
+      CloseButton: closeButtonTheme,
     },
   }
 );

@@ -1,5 +1,8 @@
 import { Session } from "next-auth";
 
+/**
+ * User types
+ */
 export interface IAuthProps {
   session: Session | null;
   reloadSession: () => void;
@@ -28,4 +31,18 @@ export interface SearchedUser {
   id: string;
   username: string;
   image: string;
+}
+
+/**
+ * Conversation Types
+ */
+
+export interface CreateConversationData {
+  createConversation: {
+    conversationId: string;
+  };
+}
+
+export interface CreateConversationProps {
+  participantsIds: Array<string>;
 }

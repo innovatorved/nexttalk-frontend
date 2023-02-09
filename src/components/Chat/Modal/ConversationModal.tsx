@@ -1,5 +1,10 @@
-import { SearchUsersData, SearchUsersInput } from "@/util/types";
-import { useLazyQuery } from "@apollo/client";
+import {
+  CreateConversationData,
+  CreateConversationProps,
+  SearchUsersData,
+  SearchUsersInput,
+} from "@/util/types";
+import { useLazyQuery, useMutation } from "@apollo/client";
 import {
   Modal,
   ModalOverlay,
@@ -16,27 +21,56 @@ import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 
 import UserOperation from "../../../graphql/operations/user";
+import ConversationOperation from "../../../graphql/operations/converation";
 import UserSearchList from "./UserSearchList";
 
 import { SearchedUser } from "../../../util/types";
+import Participants from "./Participants";
+import { Session } from "next-auth";
 
 interface ConversationModalProps {
   isOpen: boolean;
   onClose: () => void;
+  session: Session;
 }
 
 const ConversationModal: React.FC<ConversationModalProps> = ({
   isOpen,
   onClose,
+  session,
 }) => {
+  const {
+    user: { id: userId },
+  } = session;
   const [username, setUsername] = useState("");
   const [participants, setParticipants] = useState<SearchedUser[]>([]);
+
+  const [createConversation, { loading: createConversationLoading }] =
+    useMutation<CreateConversationData, CreateConversationProps>(
+      ConversationOperation.Mutations.createConversation
+    );
+
   const addParticipant = (user: SearchedUser) => {
     setParticipants((prev) => [...prev, user]);
-    setUsername("");
+    // setUsername("");
   };
-  const remov3eParticipant = (userId: string) => {
+  const removeParticipant = (userId: string) => {
     setParticipants((prev) => prev.filter((p) => p.id !== userId));
+  };
+
+  const handleCreateConversation = async () => {
+    const participantsIds = [userId, ...participants.map((p) => p.id)];
+    try {
+      const { data } = await createConversation({
+        variables: {
+          participantsIds,
+        },
+      });
+      console.log("thats a Data", data);
+    } catch (error: any) {
+      console.log("Error at Create Conversation", error?.message);
+      toast.error("Error at Create Conversation", error?.message);
+    }
   };
 
   const [searchUsers, { data, error, loading }] = useLazyQuery<
@@ -80,9 +114,28 @@ const ConversationModal: React.FC<ConversationModalProps> = ({
             </form>
             {data?.searchUsers && (
               <UserSearchList
+                participants={participants}
                 users={data.searchUsers}
                 addParticipant={addParticipant}
               />
+            )}
+            {participants.length !== 0 && (
+              <>
+                <Participants
+                  participants={participants}
+                  removeParticipants={removeParticipant}
+                />
+                <Button
+                  mt={4}
+                  bg="brand.100"
+                  width="100%"
+                  _hover={{ bg: "brand.100" }}
+                  onClick={handleCreateConversation}
+                  isLoading={createConversationLoading}
+                >
+                  Create Conversation
+                </Button>
+              </>
             )}
           </ModalBody>
         </ModalContent>
