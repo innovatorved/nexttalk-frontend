@@ -30,7 +30,8 @@ const Auth: React.FC<IAuthProps> = ({ session, reloadSession }) => {
     CreateUsernameVariables
   >(UserOperations.Mutations.createUsername);
 
-  const onSubmit = async () => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     if (!username) return;
     try {
       // GraphQl mutation for username
@@ -55,9 +56,9 @@ const Auth: React.FC<IAuthProps> = ({ session, reloadSession }) => {
   };
   return (
     <Center height="100vh">
-      <Stack align="center" spacing={8}>
-        {session ? (
-          <>
+      {session ? (
+        <form onSubmit={onSubmit}>
+          <Stack align="center" spacing={8}>
             <Text fontSize="3xl">
               Create a Username
               <Avatar
@@ -71,24 +72,24 @@ const Auth: React.FC<IAuthProps> = ({ session, reloadSession }) => {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
             />
-            <Button width="100%" onClick={onSubmit} isLoading={loading}>
+            <Button width="100%" type="submit" isLoading={loading}>
               Save
             </Button>
-          </>
-        ) : (
-          <>
-            <Text fontSize="3xl">NextTalk</Text>
-            <Button
-              onClick={() => {
-                signIn("google");
-              }}
-              leftIcon={<Image height="20px" src="/images/google.png" />}
-            >
-              Continue with Google
-            </Button>
-          </>
-        )}
-      </Stack>
+          </Stack>
+        </form>
+      ) : (
+        <Stack align="center" spacing={8}>
+          <Text fontSize="3xl">NextTalk</Text>
+          <Button
+            onClick={() => {
+              signIn("google");
+            }}
+            leftIcon={<Image height="20px" src="/images/google.png" />}
+          >
+            Continue with Google
+          </Button>
+        </Stack>
+      )}
     </Center>
   );
 };
