@@ -1,4 +1,12 @@
-import { Button, Center, Image, Input, Stack, Text } from "@chakra-ui/react";
+import {
+  Avatar,
+  Button,
+  Center,
+  Image,
+  Input,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
 import { signIn } from "next-auth/react";
 
 import { useEffect, useState } from "react";
@@ -50,7 +58,14 @@ const Auth: React.FC<IAuthProps> = ({ session, reloadSession }) => {
       <Stack align="center" spacing={8}>
         {session ? (
           <>
-            <Text fontSize="3xl">Create a Username</Text>
+            <Text fontSize="3xl">
+              Create a Username
+              <Avatar
+                ml={2}
+                src={`https://images.weserv.nl/?url=${session?.user?.image}`}
+                referrerPolicy="no-referrer"
+              />
+            </Text>
             <Input
               placeholder="Enter a Username"
               value={username}

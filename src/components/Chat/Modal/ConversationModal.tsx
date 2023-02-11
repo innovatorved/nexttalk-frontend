@@ -27,6 +27,7 @@ import UserSearchList from "./UserSearchList";
 import { SearchedUser } from "../../../util/types";
 import Participants from "./Participants";
 import { Session } from "next-auth";
+import { useRouter } from "next/router";
 
 interface ConversationModalProps {
   isOpen: boolean;
@@ -39,6 +40,8 @@ const ConversationModal: React.FC<ConversationModalProps> = ({
   onClose,
   session,
 }) => {
+  const router = useRouter();
+
   const {
     user: { id: userId },
   } = session;
@@ -66,7 +69,29 @@ const ConversationModal: React.FC<ConversationModalProps> = ({
           participantsIds,
         },
       });
-      console.log("thats a Data", data);
+
+      if (!data?.createConversation) {
+        throw new Error("Failed to Create Conversation");
+      }
+
+      const {
+        createConversation: { conversationId },
+      } = data;
+
+      /**
+       * use router to add query into parameter of converationId
+       */
+
+      router.push({ query: { conversationId } });
+
+      /**
+       * Clear every state on Modal
+       * And Close the Modal
+       */
+
+      setParticipants([]);
+      setUsername("");
+      onClose();
     } catch (error: any) {
       console.log("Error at Create Conversation", error?.message);
       toast.error("Error at Create Conversation", error?.message);
@@ -79,9 +104,6 @@ const ConversationModal: React.FC<ConversationModalProps> = ({
   >(UserOperation.Queries.searchUsers);
 
   useEffect(() => {
-    if (data && !loading) {
-      console.log(data);
-    }
     if (error) {
       toast.error(error?.message);
     }

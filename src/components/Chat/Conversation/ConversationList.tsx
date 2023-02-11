@@ -1,4 +1,4 @@
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Button, Text } from "@chakra-ui/react";
 import { Session } from "next-auth";
 import { useState } from "react";
 import ConversationModal from "../Modal/ConversationModal";
