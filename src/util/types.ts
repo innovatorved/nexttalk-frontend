@@ -1,4 +1,5 @@
 import { Session } from "next-auth";
+import { Prisma } from "@prisma/client";
 
 /**
  * User types
@@ -36,6 +37,35 @@ export interface SearchedUser {
 /**
  * Conversation Types
  */
+
+export const participantPopulated =
+  Prisma.validator<Prisma.ConversationParticipantInclude>()({
+    user: {
+      select: {
+        id: true,
+        username: true,
+      },
+    },
+  });
+
+export const conversationPopulated =
+  Prisma.validator<Prisma.ConversationInclude>()({
+    participants: {
+      include: participantPopulated,
+    },
+  });
+
+export type ConversationPopulated = Prisma.ConversationGetPayload<{
+  include: typeof conversationPopulated;
+}>;
+
+export type ParticipantPopulated = Prisma.ConversationParticipantGetPayload<{
+  include: typeof participantPopulated;
+}>;
+
+export interface ConversationData {
+  conversations: Array<ConversationPopulated>;
+}
 
 export interface CreateConversationData {
   createConversation: {
