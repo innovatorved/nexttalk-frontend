@@ -13,7 +13,6 @@ export default {
             }
             hasSeenLatestMessage
           }
-          latestMessageId
           updatedAt
         }
       }

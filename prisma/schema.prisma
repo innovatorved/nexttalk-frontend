@@ -59,32 +59,31 @@ model VerificationToken {
 
 model Conversation {
   id              String                    @id @default(auto()) @map("_id") @db.ObjectId
-  messages        Message[]
   participants    ConversationParticipant[]
-  latestMessageId String?                   @default("000000000000")
+  messages        Message[]                 @relation("conversationMessages")
+  latestMessageId String?
+  latestMessage   Message?                  @relation("latestConversationMessage")
   createdAt       DateTime                  @default(now())
   updatedAt       DateTime                  @updatedAt
 }
 
 model ConversationParticipant {
   id                   String       @id @default(auto()) @map("_id") @db.ObjectId
-  userId               String       @db.ObjectId
   user                 User         @relation(fields: [userId], references: [id])
-  conversationId       String       @db.ObjectId
+  userId               String       @db.ObjectId
   conversation         Conversation @relation(fields: [conversationId], references: [id])
+  conversationId       String       @db.ObjectId
   hasSeenLatestMessage Boolean
-  createdAt            DateTime     @default(now())
-  updatedAt            DateTime     @updatedAt
 }
 
 model Message {
   id             String       @id @default(auto()) @map("_id") @db.ObjectId
-  conversationId String       @db.ObjectId
-  conversation   Conversation @relation(fields: [conversationId], references: [id])
-  senderId       String       @db.ObjectId
+  conversation   Conversation @relation(name: "conversationMessages", fields: [conversationId], references: [id])
+  conversationId String       @unique @db.ObjectId
+  isLatestIn     Conversation @relation(name: "latestConversationMessage", fields: [conversationId], references: [id], onUpdate: NoAction, onDelete: NoAction)
   sender         User         @relation(fields: [senderId], references: [id])
+  senderId       String       @db.ObjectId
   body           String
-  isLatestIn     String?
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
 }
