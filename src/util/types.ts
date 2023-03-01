@@ -86,3 +86,7 @@ export interface CreateConversationData {
 export interface CreateConversationProps {
   participantsIds: Array<string>;
 }
+
+export interface ConversationCreatedSubscriptionPayload {
+  conversationCreated: ConversationPopulated;
+}

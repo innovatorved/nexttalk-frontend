@@ -1,19 +1,32 @@
 import { gql } from "@apollo/client";
 
+const ConversationFields = `
+  id
+  participants {
+    user {
+      id
+      username
+    }
+    hasSeenLatestMessage
+  }
+  latestMessage{
+    id
+    sender{
+      id
+      username
+    }
+    body
+    createdAt
+  }
+  updatedAt
+`;
+
 export default {
   Queries: {
     conversations: gql`
       query Conversations {
-        conversations {
-          id
-          participants {
-            user {
-              id
-              username
-            }
-            hasSeenLatestMessage
-          }
-          updatedAt
+        conversations{
+          ${ConversationFields}
         }
       }
     `,
@@ -27,5 +40,13 @@ export default {
       }
     `,
   },
-  Subscription: {},
+  Subscription: {
+    conversationCreated: gql`
+      subscription ConversationCreated{
+        conversationCreated{
+          ${ConversationFields}
+        }
+      }
+    `,
+  },
 };

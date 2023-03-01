@@ -19,16 +19,50 @@ const ConversationWrapper: React.FC<ConversationWrapperProps> = ({
     data: converationsData,
     error: conversationsError,
     loading: conversationLoading,
-  } = useQuery<ConversationData, any>(
+    subscribeToMore,
+  } = useQuery<ConversationData, ConversationPopulated>(
     conversationOperation.Queries.conversations
   );
+
+  const subscribeToNewConversations = () => {
+    subscribeToMore({
+      document: conversationOperation.Subscription.conversationCreated,
+      updateQuery: (
+        prev,
+        {
+          subscriptionData,
+        }: {
+          subscriptionData: {
+            data: { conversationCreated: ConversationPopulated };
+          };
+        }
+      ) => {
+        if (!subscriptionData.data) return prev;
+        const newConversation = subscriptionData.data.conversationCreated;
+        return Object.assign({}, prev, {
+          conversations: [newConversation, ...prev?.conversations],
+        });
+      },
+    });
+  };
 
   useEffect(() => {
     console.log(converationsData);
   }, [converationsData]);
+
+  /**
+   * Execute Subscription on mount
+   */
+  useEffect(() => {
+    subscribeToNewConversations();
+  }, []);
+
   return (
     <Box width={{ base: "100%", md: "400px" }} bg="whiteAlpha.50" py={6} px={3}>
-      <ConversationList session={session} />
+      <ConversationList
+        session={session}
+        conversations={converationsData?.conversations || []}
+      />
       <Button
         onClick={() => signOut()}
         width="100%"

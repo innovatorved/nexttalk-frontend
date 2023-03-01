@@ -5,4 +5,5 @@ export const DATABASE_URL = process.env.MONGO_DATABASE_URL as string;
 
 export const NEXTAUTH_SECRET = process.env.NEXTAUTH_SECRET as string;
 
-export const BACKEND_ENDPOINT = "http://localhost:4000/graphql";
+export const BACKEND_ENDPOINT = "http://localhost:5000/graphql";
+export const WS_ENDPOINT = "ws://localhost:5000/graphql/subscriptions";
