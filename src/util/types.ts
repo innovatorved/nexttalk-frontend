@@ -73,7 +73,7 @@ export type ParticipantPopulated = Prisma.ConversationParticipantGetPayload<{
   include: typeof participantPopulated;
 }>;
 
-export interface ConversationData {
+export interface ConversationsData {
   conversations: Array<ConversationPopulated>;
 }
 

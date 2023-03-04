@@ -6,7 +6,8 @@ import { signOut } from "next-auth/react";
 import { useQuery } from "@apollo/client";
 import conversationOperation from "@/graphql/operations/converation";
 import { useEffect } from "react";
-import { ConversationData, ConversationPopulated } from "@/util/types";
+import { ConversationsData, ConversationPopulated } from "@/util/types";
+import { useRouter } from "next/router";
 
 interface ConversationWrapperProps {
   session: Session;
@@ -20,9 +21,20 @@ const ConversationWrapper: React.FC<ConversationWrapperProps> = ({
     error: conversationsError,
     loading: conversationLoading,
     subscribeToMore,
-  } = useQuery<ConversationData, ConversationPopulated>(
+  } = useQuery<ConversationsData, ConversationPopulated>(
     conversationOperation.Queries.conversations
   );
+
+  const router = useRouter();
+  const onViewConversation = async (conversationId: string) => {
+    /**
+     * 1. push the conversationId to the router query string
+     * 2. Mark the conversation as read
+     */
+
+    router.push({ query: { conversationId } });
+  };
+  const { conversationId } = router?.query;
 
   const subscribeToNewConversations = () => {
     subscribeToMore({
@@ -58,8 +70,15 @@ const ConversationWrapper: React.FC<ConversationWrapperProps> = ({
   }, []);
 
   return (
-    <Box width={{ base: "100%", md: "400px" }} bg="whiteAlpha.50" py={6} px={3}>
+    <Box
+      width={{ base: "100%", md: "400px" }}
+      bg="whiteAlpha.50"
+      py={6}
+      px={3}
+      display={{ base: conversationId ? "none" : "block", md: "block" }}
+    >
       <ConversationList
+        onViewConversation={onViewConversation}
         session={session}
         conversations={converationsData?.conversations || []}
       />
