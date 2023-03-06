@@ -61,8 +61,8 @@ model Conversation {
   id              String                    @id @default(auto()) @map("_id") @db.ObjectId
   participants    ConversationParticipant[]
   messages        Message[]                 @relation("conversationMessages")
-  latestMessageId String?
-  latestMessage   Message?                  @relation("latestConversationMessage")
+  latestMessageId String?                   @unique @db.ObjectId
+  latestMessage   Message?                  @relation(name: "latestConversationMessage", fields: [latestMessageId], references: [id], onUpdate: NoAction, onDelete: NoAction)
   createdAt       DateTime                  @default(now())
   updatedAt       DateTime                  @updatedAt
 }
@@ -77,13 +77,13 @@ model ConversationParticipant {
 }
 
 model Message {
-  id             String       @id @default(auto()) @map("_id") @db.ObjectId
-  conversation   Conversation @relation(name: "conversationMessages", fields: [conversationId], references: [id])
-  conversationId String       @unique @db.ObjectId
-  isLatestIn     Conversation @relation(name: "latestConversationMessage", fields: [conversationId], references: [id], onUpdate: NoAction, onDelete: NoAction)
-  sender         User         @relation(fields: [senderId], references: [id])
-  senderId       String       @db.ObjectId
+  id             String        @id @default(auto()) @map("_id") @db.ObjectId
+  conversation   Conversation  @relation(name: "conversationMessages", fields: [conversationId], references: [id])
+  conversationId String        @db.ObjectId
+  isLatestIn     Conversation? @relation("latestConversationMessage")
+  sender         User          @relation(fields: [senderId], references: [id], onDelete: Cascade)
+  senderId       String        @db.ObjectId
   body           String
-  createdAt      DateTime     @default(now())
-  updatedAt      DateTime     @updatedAt
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
 }

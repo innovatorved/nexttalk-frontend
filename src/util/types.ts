@@ -90,3 +90,33 @@ export interface CreateConversationProps {
 export interface ConversationCreatedSubscriptionPayload {
   conversationCreated: ConversationPopulated;
 }
+
+/**
+ * Message
+ */
+export const messagePopulated = Prisma.validator<Prisma.MessageInclude>()({
+  sender: {
+    select: {
+      id: true,
+      username: true,
+    },
+  },
+});
+
+export type MessagePopulated = Prisma.MessageGetPayload<{
+  include: typeof messagePopulated;
+}>;
+
+export interface MessagesData {
+  messages: Array<MessagePopulated>;
+}
+export interface MessagesVariables {
+  conversationId: string;
+}
+
+export interface SendMessageArguments {
+  id: string;
+  conversationId: string;
+  senderId: string;
+  body: string;
+}

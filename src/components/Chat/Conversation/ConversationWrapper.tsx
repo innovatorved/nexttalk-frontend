@@ -1,6 +1,7 @@
-import { Box, Button } from "@chakra-ui/react";
+import { Box, Button, Stack } from "@chakra-ui/react";
 import { Session } from "next-auth";
 import ConversationList from "./ConversationList";
+import SkeletonLoader from "@/components/Loader/SkeletonLoader";
 
 import { signOut } from "next-auth/react";
 import { useQuery } from "@apollo/client";
@@ -77,11 +78,18 @@ const ConversationWrapper: React.FC<ConversationWrapperProps> = ({
       px={3}
       display={{ base: conversationId ? "none" : "block", md: "block" }}
     >
-      <ConversationList
-        onViewConversation={onViewConversation}
-        session={session}
-        conversations={converationsData?.conversations || []}
-      />
+      {conversationLoading ? (
+        <Stack m={2}>
+          <SkeletonLoader count={7} height="80px" width="360px" />
+        </Stack>
+      ) : (
+        <ConversationList
+          onViewConversation={onViewConversation}
+          session={session}
+          conversations={converationsData?.conversations || []}
+        />
+      )}
+
       <Button
         onClick={() => signOut()}
         width="100%"

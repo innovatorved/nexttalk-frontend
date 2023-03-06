@@ -17,6 +17,7 @@
     "@next-auth/prisma-adapter": "^1.0.5",
     "@next/font": "13.1.6",
     "@prisma/client": "^4.10.1",
+    "bson": "^5.0.1",
     "date-fns": "^2.29.3",
     "framer-motion": "^9.0.1",
     "graphql": "^16.6.0",

@@ -5,7 +5,7 @@ import React from "react";
 import ConversationOperations from "@/graphql/operations/converation";
 import { formatUsernames } from "@/util/functions";
 import { ConversationsData } from "@/util/types";
-import SkeletonLoader from "./SkeletonLoader";
+import SkeletonLoader from "@/components/Loader/SkeletonLoader";
 import { NEXT_PUBLIC_BASE_URL } from "@/constants";
 
 export interface MessageHeaderProps {
@@ -13,12 +13,12 @@ export interface MessageHeaderProps {
   conversationId: string;
 }
 
-export const MessageHeader: React.FC<MessageHeaderProps> = ({
+const MessageHeader: React.FC<MessageHeaderProps> = ({
   userId,
   conversationId,
 }) => {
   const router = useRouter();
-  const { data, loading } = useQuery<ConversationsData, null>(
+  const { data, loading } = useQuery<ConversationsData, any>(
     ConversationOperations.Queries.conversations
   );
 
@@ -63,3 +63,5 @@ export const MessageHeader: React.FC<MessageHeaderProps> = ({
     </Stack>
   );
 };
+
+export default MessageHeader;
