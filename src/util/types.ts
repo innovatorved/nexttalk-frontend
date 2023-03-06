@@ -44,6 +44,7 @@ export const participantPopulated =
       select: {
         id: true,
         username: true,
+        image: true,
       },
     },
   });
@@ -119,4 +120,12 @@ export interface SendMessageArguments {
   conversationId: string;
   senderId: string;
   body: string;
+}
+
+export interface MessagesSubscriptionData {
+  subscriptionData: {
+    data: {
+      messageSend: MessagePopulated;
+    };
+  };
 }

@@ -39,6 +39,7 @@ const MessageHeader: React.FC<MessageHeaderProps> = ({
       px={{ base: 4, md: 0 }}
       borderBottom="1px solid"
       borderColor="whiteAlpha.200"
+      pos="sticky"
     >
       <Button
         display={{ md: "none" }}

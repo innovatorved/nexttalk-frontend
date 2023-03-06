@@ -1,3 +1,4 @@
+import { findRecipientImage } from "@/util/functions";
 import { ConversationPopulated } from "@/util/types";
 import { Box, Button, Text } from "@chakra-ui/react";
 import { Session } from "next-auth";
@@ -10,12 +11,14 @@ import ConversationItem from "./ConversationItem";
 interface ConversationListProps {
   session: Session;
   conversations: Array<ConversationPopulated>;
+  userImage: { [key: string]: string };
   onViewConversation: (conversationId: string) => void;
 }
 
 const ConversationList: React.FC<ConversationListProps> = ({
   session,
   conversations,
+  userImage,
   onViewConversation,
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -48,16 +51,24 @@ const ConversationList: React.FC<ConversationListProps> = ({
           onClose={onClose}
         />
       </Box>
-      {conversations.map((conversation) => (
-        <ConversationItem
-          conversation={conversation}
-          userId={userId}
-          key={conversation.id}
-          onClick={() => onViewConversation(conversation.id)}
-          isSelected={conversation.id === router.query.conversationId}
-          selectedConversationId={router.query.conversationId as string}
-        />
-      ))}
+      {conversations.map((conversation) => {
+        let recipitentImage = findRecipientImage(
+          conversation,
+          userId,
+          userImage
+        );
+        return (
+          <ConversationItem
+            conversation={conversation}
+            userId={userId}
+            recipitentImage={recipitentImage}
+            key={conversation.id}
+            onClick={() => onViewConversation(conversation.id)}
+            isSelected={conversation.id === router.query.conversationId}
+            selectedConversationId={router.query.conversationId as string}
+          />
+        );
+      })}
     </Box>
   );
 };

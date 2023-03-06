@@ -4,12 +4,14 @@ import { useRouter } from "next/router";
 import MessageHeader from "./Messages/Header";
 import MessageInput from "./Messages/Input";
 import Messages from "./Messages/Messages";
+import NoConversation from "./NoConversationSelected";
 
 interface FeedWrapperProps {
   session: Session;
+  userImage: { [key: string]: string };
 }
 
-const FeedWrapper: React.FC<FeedWrapperProps> = ({ session }) => {
+const FeedWrapper: React.FC<FeedWrapperProps> = ({ session, userImage }) => {
   const router = useRouter();
   const { conversationId } = router.query;
   const {
@@ -24,19 +26,19 @@ const FeedWrapper: React.FC<FeedWrapperProps> = ({ session }) => {
     >
       {conversationId && typeof conversationId === "string" ? (
         <>
-          <Flex
-            direction="column"
-            justify="space-between"
-            overflow="hidden"
-            flexGrow={1}
-          >
+          <Flex>
             <MessageHeader userId={userId} conversationId={conversationId} />
           </Flex>
-          <Messages userId={userId} conversationId={conversationId} />
+
+          <Messages
+            userId={userId}
+            userImage={userImage}
+            conversationId={conversationId}
+          />
           <MessageInput session={session} conversationId={conversationId} />
         </>
       ) : (
-        <div>No Conversation Selected</div>
+        <NoConversation />
       )}
     </Flex>
   );

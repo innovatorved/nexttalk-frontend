@@ -6,6 +6,7 @@ export const MessageFields = `
         id
         username
     }
+    senderId
     body
     createdAt
 `;

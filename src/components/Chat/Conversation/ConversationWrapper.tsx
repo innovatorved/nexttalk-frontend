@@ -9,13 +9,18 @@ import conversationOperation from "@/graphql/operations/converation";
 import { useEffect } from "react";
 import { ConversationsData, ConversationPopulated } from "@/util/types";
 import { useRouter } from "next/router";
+import { userIdImageDict } from "@/util/functions";
 
 interface ConversationWrapperProps {
   session: Session;
+  setUserImage: React.Dispatch<React.SetStateAction<any>>;
+  userImage: { [key: string]: string };
 }
 
 const ConversationWrapper: React.FC<ConversationWrapperProps> = ({
   session,
+  setUserImage,
+  userImage,
 }) => {
   const {
     data: converationsData,
@@ -25,6 +30,11 @@ const ConversationWrapper: React.FC<ConversationWrapperProps> = ({
   } = useQuery<ConversationsData, ConversationPopulated>(
     conversationOperation.Queries.conversations
   );
+  useEffect(() => {
+    if (!converationsData) return;
+    const imageData = userIdImageDict(converationsData);
+    setUserImage(imageData);
+  }, [converationsData]);
 
   const router = useRouter();
   const onViewConversation = async (conversationId: string) => {
@@ -59,10 +69,6 @@ const ConversationWrapper: React.FC<ConversationWrapperProps> = ({
     });
   };
 
-  useEffect(() => {
-    console.log(converationsData);
-  }, [converationsData]);
-
   /**
    * Execute Subscription on mount
    */
@@ -72,10 +78,11 @@ const ConversationWrapper: React.FC<ConversationWrapperProps> = ({
 
   return (
     <Box
-      width={{ base: "100%", md: "400px" }}
+      width={{ base: "100%", md: "600px" }}
       bg="whiteAlpha.50"
       py={6}
       px={3}
+      overflowY="scroll"
       display={{ base: conversationId ? "none" : "block", md: "block" }}
     >
       {conversationLoading ? (
@@ -86,6 +93,7 @@ const ConversationWrapper: React.FC<ConversationWrapperProps> = ({
         <ConversationList
           onViewConversation={onViewConversation}
           session={session}
+          userImage={userImage}
           conversations={converationsData?.conversations || []}
         />
       )}

@@ -1,4 +1,8 @@
-import { MessagesData, MessagesVariables } from "@/util/types";
+import {
+  MessagesData,
+  MessagesVariables,
+  MessagesSubscriptionData,
+} from "@/util/types";
 import { useQuery } from "@apollo/client";
 import { Box, Flex, Stack } from "@chakra-ui/react";
 
@@ -7,13 +11,19 @@ import { toast } from "react-hot-toast";
 
 import SkeletonLoader from "@/components/Loader/SkeletonLoader";
 import MessageItem from "./MessageItem";
+import { useEffect } from "react";
 
 interface MessagesProps {
   userId: string;
   conversationId: string;
+  userImage: { [key: string]: string };
 }
 
-const Messages: React.FC<MessagesProps> = ({ userId, conversationId }) => {
+const Messages: React.FC<MessagesProps> = ({
+  userId,
+  conversationId,
+  userImage,
+}) => {
   const { data, loading, error, subscribeToMore } = useQuery<
     MessagesData,
     MessagesVariables
@@ -29,17 +39,52 @@ const Messages: React.FC<MessagesProps> = ({ userId, conversationId }) => {
   if (error) {
     return null;
   }
+
+  const subscribeToMoreMessages = (conversationId: string) => {
+    return subscribeToMore({
+      document: MessageOperations.Subscription.messageSend,
+      variables: {
+        conversationId,
+      },
+      updateQuery: (prev, { subscriptionData }: MessagesSubscriptionData) => {
+        if (!subscriptionData) return prev;
+
+        const newMessage = subscriptionData.data.messageSend;
+
+        return Object.assign({}, prev, {
+          messages:
+            newMessage.sender.id === userId
+              ? prev.messages
+              : [newMessage, ...prev.messages],
+        });
+      },
+    });
+  };
+
+  useEffect(() => {
+    const unsubscribe = subscribeToMoreMessages(conversationId);
+
+    return () => unsubscribe();
+  }, [conversationId]);
+
   return (
     <Flex direction="column" justify="flex-end" overflow="hidden">
       {loading && (
         <Stack m={2}>
-          <SkeletonLoader count={4} height="60px" width="60%" />
+          <SkeletonLoader count={10} height="60px" width="60%" />
         </Stack>
       )}
+
       {data?.messages && (
-        <Flex direction="column-reverse" overflowY="scroll" height="100%">
+        <Flex
+          direction="column-reverse"
+          minH="100vh"
+          overflowY="scroll"
+          height="100%"
+        >
           {data.messages.map((message) => (
             <MessageItem
+              userImage={userImage}
               key={message.id}
               message={message}
               sentByMe={message.senderId === userId}

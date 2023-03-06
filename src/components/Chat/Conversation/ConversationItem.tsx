@@ -30,6 +30,7 @@ interface ConversationItemProps {
   conversation: ConversationPopulated;
   onClick: () => void;
   isSelected: boolean;
+  recipitentImage: string | null;
   // onEditConversation?: () => void;
   // hasSeenLatestMessage?: boolean;
   selectedConversationId?: string;
@@ -41,6 +42,7 @@ const ConversationItem: React.FC<ConversationItemProps> = ({
   userId,
   conversation,
   onClick,
+  recipitentImage,
   isSelected,
   selectedConversationId,
   // hasSeenLatestMessage,
@@ -120,7 +122,15 @@ const ConversationItem: React.FC<ConversationItemProps> = ({
           <GoPrimitiveDot fontSize={18} color="#6B46C1" />
         )}
       </Flex> */}
-      <Avatar />
+
+      <Avatar
+        src={
+          recipitentImage
+            ? `https://images.weserv.nl/?url=${recipitentImage}`
+            : "https://usnajdxrvqmvtnunrroc.supabase.co/storage/v1/object/public/image/groupimage.png"
+        }
+        referrerPolicy="no-referrer"
+      />
       <Flex justify="space-between" width="80%" height="100%">
         <Flex direction="column" width="70%" height="100%">
           <Text

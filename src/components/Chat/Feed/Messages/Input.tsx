@@ -8,7 +8,7 @@ import { ObjectId } from "bson";
 
 import MessageOperations from "@/graphql/operations/message";
 
-import { SendMessageArguments } from "@/util/types";
+import { MessagesData, SendMessageArguments } from "@/util/types";
 
 interface MessageInputProps {
   session: Session;
@@ -37,10 +37,43 @@ const MessageInput: React.FC<MessageInputProps> = ({
         conversationId,
         body: message,
       };
+      setMessage("");
 
       const { data, errors } = await sendMessage({
         variables: {
           ...newMessage,
+        },
+        optimisticResponse: {
+          sendMessage: true,
+        },
+        update: (cache) => {
+          const existing = cache.readQuery<MessagesData>({
+            query: MessageOperations.Query.messages,
+            variables: { conversationId },
+          }) as MessagesData;
+
+          cache.writeQuery<MessagesData, { conversationId: string }>({
+            query: MessageOperations.Query.messages,
+            variables: { conversationId },
+            data: {
+              ...existing,
+              messages: [
+                {
+                  id: messageId,
+                  body: message,
+                  senderId: session.user.id,
+                  conversationId,
+                  sender: {
+                    id: session.user.id,
+                    username: session.user.username,
+                  },
+                  createdAt: new Date(Date.now()),
+                  updatedAt: new Date(Date.now()),
+                },
+                ...existing.messages,
+              ],
+            },
+          });
         },
       });
 

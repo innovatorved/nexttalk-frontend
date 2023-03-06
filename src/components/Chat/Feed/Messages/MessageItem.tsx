@@ -7,6 +7,7 @@ import { MessagePopulated } from "@/util/types";
 interface MessageItemProps {
   message: MessagePopulated;
   sentByMe: boolean;
+  userImage: { [key: string]: string };
 }
 
 const formatRelativeLocale = {
@@ -16,7 +17,11 @@ const formatRelativeLocale = {
   other: "MM/dd/yy",
 };
 
-const MessageItem: React.FC<MessageItemProps> = ({ message, sentByMe }) => {
+const MessageItem: React.FC<MessageItemProps> = ({
+  message,
+  sentByMe,
+  userImage,
+}) => {
   return (
     <Stack
       direction="row"
@@ -28,7 +33,13 @@ const MessageItem: React.FC<MessageItemProps> = ({ message, sentByMe }) => {
     >
       {!sentByMe && (
         <Flex align="flex-end">
-          <Avatar size="sm" />
+          <Avatar
+            size="sm"
+            src={`https://images.weserv.nl/?url=${
+              userImage[message?.senderId]
+            }`}
+            referrerPolicy="no-referrer"
+          />
         </Flex>
       )}
       <Stack spacing={1} width="100%">
@@ -42,7 +53,7 @@ const MessageItem: React.FC<MessageItemProps> = ({ message, sentByMe }) => {
               {message.sender.username}
             </Text>
           )}
-          <Text fontSize={14} color="whiteAlpha.700">
+          <Text fontSize={10} color="whiteAlpha.700">
             {formatRelative(message.createdAt, new Date(), {
               locale: {
                 ...enUS,
@@ -59,7 +70,7 @@ const MessageItem: React.FC<MessageItemProps> = ({ message, sentByMe }) => {
             bg={sentByMe ? "brand.100" : "whiteAlpha.300"}
             px={2}
             py={1}
-            borderRadius={12}
+            borderRadius={9}
             maxWidth="65%"
           >
             <Text>{message.body}</Text>
