@@ -1,5 +1,6 @@
 import {
   Avatar,
+  AvatarGroup,
   Box,
   Flex,
   Menu,
@@ -30,7 +31,7 @@ interface ConversationItemProps {
   conversation: ConversationPopulated;
   onClick: () => void;
   isSelected: boolean;
-  recipitentImage: string | null;
+  recipitentImages: string[];
   // onEditConversation?: () => void;
   // hasSeenLatestMessage?: boolean;
   selectedConversationId?: string;
@@ -42,7 +43,7 @@ const ConversationItem: React.FC<ConversationItemProps> = ({
   userId,
   conversation,
   onClick,
-  recipitentImage,
+  recipitentImages,
   isSelected,
   selectedConversationId,
   // hasSeenLatestMessage,
@@ -70,7 +71,8 @@ const ConversationItem: React.FC<ConversationItemProps> = ({
       align="center"
       justify="space-between"
       m={1}
-      p={4}
+      py={2}
+      pr={2}
       cursor="pointer"
       borderRadius={4}
       bg={
@@ -122,19 +124,26 @@ const ConversationItem: React.FC<ConversationItemProps> = ({
           <GoPrimitiveDot fontSize={18} color="#6B46C1" />
         )}
       </Flex> */}
+      <Box minW="100px">
+        <AvatarGroup size="md" max={1} border="">
+          {recipitentImages.map((image, id) => {
+            if (id > 2) return <></>;
+            return (
+              <Avatar
+                border="none"
+                key={id}
+                src={`https://images.weserv.nl/?url=${image}`}
+                referrerPolicy="no-referrer"
+              />
+            );
+          })}
+        </AvatarGroup>
+      </Box>
 
-      <Avatar
-        src={
-          recipitentImage
-            ? `https://images.weserv.nl/?url=${recipitentImage}`
-            : "https://usnajdxrvqmvtnunrroc.supabase.co/storage/v1/object/public/image/groupimage.png"
-        }
-        referrerPolicy="no-referrer"
-      />
       <Flex justify="space-between" width="80%" height="100%">
         <Flex direction="column" width="70%" height="100%">
           <Text
-            fontWeight={600}
+            fontWeight={100}
             whiteSpace="nowrap"
             overflow="hidden"
             textOverflow="ellipsis"
@@ -142,7 +151,7 @@ const ConversationItem: React.FC<ConversationItemProps> = ({
             {formatUsernames(conversation.participants, userId)}
           </Text>
           {conversation.latestMessage && (
-            <Box width="140%">
+            <Box width="140%" fontSize={14}>
               <Text
                 color="whiteAlpha.700"
                 whiteSpace="nowrap"
@@ -154,7 +163,7 @@ const ConversationItem: React.FC<ConversationItemProps> = ({
             </Box>
           )}
         </Flex>
-        <Text color="whiteAlpha.700" textAlign="right">
+        <Text color="whiteAlpha.700" textAlign="right" fontSize={12}>
           {formatRelative(conversation.updatedAt, new Date(), {
             locale: {
               ...enUS,

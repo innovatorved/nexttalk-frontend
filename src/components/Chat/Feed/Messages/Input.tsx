@@ -27,6 +27,12 @@ const MessageInput: React.FC<MessageInputProps> = ({
 
   const onSendMessage = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    const regex_check: RegExp = /^[^\s\0]+$/;
+    if (!regex_check.test(message)) {
+      toast.error("Write Something...");
+      return;
+    }
     try {
       const { id: senderId } = session.user;
       const messageId = new ObjectId().toString();

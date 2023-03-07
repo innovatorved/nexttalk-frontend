@@ -1,4 +1,4 @@
-import { findRecipientImage } from "@/util/functions";
+import { findRecipientImages } from "@/util/functions";
 import { ConversationPopulated } from "@/util/types";
 import { Box, Button, Text } from "@chakra-ui/react";
 import { Session } from "next-auth";
@@ -42,7 +42,12 @@ const ConversationList: React.FC<ConversationListProps> = ({
         cursor="pointer"
         onClick={onOpen}
       >
-        <Text textAlign="center" color="whiteAlpha.800" fontWeight={500}>
+        <Text
+          textAlign="center"
+          fontSize="14px"
+          color="whiteAlpha.800"
+          fontWeight={100}
+        >
           Find or start a conversation
         </Text>
         <ConversationModal
@@ -52,7 +57,7 @@ const ConversationList: React.FC<ConversationListProps> = ({
         />
       </Box>
       {conversations.map((conversation) => {
-        let recipitentImage = findRecipientImage(
+        let recipitentImages = findRecipientImages(
           conversation,
           userId,
           userImage
@@ -61,7 +66,7 @@ const ConversationList: React.FC<ConversationListProps> = ({
           <ConversationItem
             conversation={conversation}
             userId={userId}
-            recipitentImage={recipitentImage}
+            recipitentImages={recipitentImages}
             key={conversation.id}
             onClick={() => onViewConversation(conversation.id)}
             isSelected={conversation.id === router.query.conversationId}

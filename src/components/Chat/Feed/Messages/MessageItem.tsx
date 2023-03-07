@@ -49,7 +49,7 @@ const MessageItem: React.FC<MessageItemProps> = ({
           justify={sentByMe ? "flex-end" : "flex-start"}
         >
           {!sentByMe && (
-            <Text fontWeight={500} textAlign={sentByMe ? "right" : "left"}>
+            <Text fontWeight={100} textAlign={sentByMe ? "right" : "left"}>
               {message.sender.username}
             </Text>
           )}

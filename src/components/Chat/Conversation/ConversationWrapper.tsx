@@ -104,7 +104,7 @@ const ConversationWrapper: React.FC<ConversationWrapperProps> = ({
         textAlign="center"
         mt={8}
         color="whiteAlpha.800"
-        fontWeight={500}
+        fontWeight={100}
       >
         Logout
       </Button>

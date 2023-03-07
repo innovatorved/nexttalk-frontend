@@ -1,20 +1,30 @@
 import { useQuery } from "@apollo/client";
-import { Button, Stack, Text } from "@chakra-ui/react";
+import {
+  Avatar,
+  AvatarGroup,
+  Box,
+  Button,
+  Flex,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import React from "react";
 import ConversationOperations from "@/graphql/operations/converation";
-import { formatUsernames } from "@/util/functions";
-import { ConversationsData } from "@/util/types";
+import { findRecipientImages, formatUsernames } from "@/util/functions";
+import { ConversationPopulated, ConversationsData } from "@/util/types";
 import SkeletonLoader from "@/components/Loader/SkeletonLoader";
 import { NEXT_PUBLIC_BASE_URL } from "@/constants";
 
 export interface MessageHeaderProps {
   userId: string;
   conversationId: string;
+  userImage: { [key: string]: string };
 }
 
 const MessageHeader: React.FC<MessageHeaderProps> = ({
   userId,
+  userImage,
   conversationId,
 }) => {
   const router = useRouter();
@@ -22,13 +32,16 @@ const MessageHeader: React.FC<MessageHeaderProps> = ({
     ConversationOperations.Queries.conversations
   );
 
-  const conversation = data?.conversations.find(
-    (conversation) => conversation.id === conversationId
-  );
+  const conversation: ConversationPopulated | undefined =
+    data?.conversations.find(
+      (conversation) => conversation.id === conversationId
+    );
 
   if (data?.conversations && !loading && !conversation) {
     router.replace(NEXT_PUBLIC_BASE_URL);
+    return <></>;
   }
+  let recipitentImages = findRecipientImages(conversation, userId, userImage);
 
   return (
     <Stack
@@ -54,12 +67,27 @@ const MessageHeader: React.FC<MessageHeaderProps> = ({
       {loading && <SkeletonLoader count={1} height="30px" width="320px" />}
       {!conversation && !loading && <Text>Conversation Not Found</Text>}
       {conversation && (
-        <Stack direction="row">
+        <Flex direction="row" align="center" gap="10px">
           <Text color="whiteAlpha.600">To: </Text>
-          <Text fontWeight={600}>
+          <Box minW="100px">
+            <AvatarGroup size="md" max={3} border="">
+              {recipitentImages.map((image, id) => {
+                if (id > 2) return <></>;
+                return (
+                  <Avatar
+                    border="none"
+                    key={id}
+                    src={`https://images.weserv.nl/?url=${image}`}
+                    referrerPolicy="no-referrer"
+                  />
+                );
+              })}
+            </AvatarGroup>
+          </Box>
+          <Text fontWeight={100}>
             {formatUsernames(conversation.participants, userId)}
           </Text>
-        </Stack>
+        </Flex>
       )}
     </Stack>
   );

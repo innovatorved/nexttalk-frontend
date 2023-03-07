@@ -21,13 +21,17 @@ const FeedWrapper: React.FC<FeedWrapperProps> = ({ session, userImage }) => {
   return (
     <Flex
       display={{ base: conversationId ? "flex" : "none", md: "flex" }}
-      width="100%"
+      width={{ base: "100%", md: "80%" }}
       direction="column"
     >
       {conversationId && typeof conversationId === "string" ? (
         <>
           <Flex>
-            <MessageHeader userId={userId} conversationId={conversationId} />
+            <MessageHeader
+              userId={userId}
+              userImage={userImage}
+              conversationId={conversationId}
+            />
           </Flex>
 
           <Messages

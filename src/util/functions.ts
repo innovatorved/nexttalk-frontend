@@ -64,3 +64,19 @@ export const findRecipientImage = (
   const recipientId = id1 === userId ? id2 : id1;
   return recipientId in userImage ? userImage[recipientId] : null;
 };
+
+export const findRecipientImages = (
+  conversation: ConversationPopulated | undefined,
+  userId: string,
+  userImage: { [key: string]: string }
+): string[] => {
+  if (conversation === undefined) return [];
+  const participantIds = conversation.participants.map(
+    (participant) => participant.user.id
+  );
+  const recipientIds = participantIds.filter((id) => id !== userId);
+
+  return recipientIds
+    .map((id) => userImage[id])
+    .filter((image) => image !== undefined);
+};
