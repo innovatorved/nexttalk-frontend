@@ -4,7 +4,7 @@ import {
   ConversationPopulated,
 } from "@/util/types";
 
-export const formatUsernames = (
+export const formatUsernames_forFeed = (
   participants: Array<ParticipantPopulated>,
   myUserId: string
 ): string => {
@@ -17,6 +17,19 @@ export const formatUsernames = (
   if (usernames.join(", ").length > 20) {
     formattedUsernames += "...";
   }
+
+  return formattedUsernames;
+};
+
+export const formatUsernames_forConversation = (
+  participants: Array<ParticipantPopulated>,
+  myUserId: string
+): string => {
+  const usernames = participants
+    .filter((participant) => participant.user.id != myUserId)
+    .map((participant) => participant.user.username);
+
+  let formattedUsernames = usernames.join(", ");
 
   return formattedUsernames;
 };

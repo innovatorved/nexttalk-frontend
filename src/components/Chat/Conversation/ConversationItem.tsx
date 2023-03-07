@@ -17,7 +17,7 @@ import { MdDeleteOutline } from "react-icons/md";
 import { BiLogOut } from "react-icons/bi";
 import { AiOutlineEdit } from "react-icons/ai";
 import { ConversationPopulated } from "@/util/types";
-import { formatUsernames } from "@/util/functions";
+import { formatUsernames_forFeed } from "@/util/functions";
 
 const formatRelativeLocale = {
   lastWeek: "eeee",
@@ -149,7 +149,7 @@ const ConversationItem: React.FC<ConversationItemProps> = ({
             overflow="hidden"
             textOverflow="ellipsis"
           >
-            {formatUsernames(conversation.participants, userId)}
+            {formatUsernames_forFeed(conversation.participants, userId)}
           </Text>
           {conversation.latestMessage && (
             <Box width="70%" fontSize={14}>
@@ -159,7 +159,7 @@ const ConversationItem: React.FC<ConversationItemProps> = ({
                 overflow="hidden"
                 textOverflow="ellipsis"
               >
-                {conversation.latestMessage.body.slice(0, 20)}
+                {conversation.latestMessage.body}
               </Text>
             </Box>
           )}

@@ -11,7 +11,10 @@ import {
 import { useRouter } from "next/router";
 import React from "react";
 import ConversationOperations from "@/graphql/operations/converation";
-import { findRecipientImages, formatUsernames } from "@/util/functions";
+import {
+  findRecipientImages,
+  formatUsernames_forConversation,
+} from "@/util/functions";
 import { ConversationPopulated, ConversationsData } from "@/util/types";
 import SkeletonLoader from "@/components/Loader/SkeletonLoader";
 import { NEXT_PUBLIC_BASE_URL } from "@/constants";
@@ -48,7 +51,7 @@ const MessageHeader: React.FC<MessageHeaderProps> = ({
       direction="row"
       align="center"
       spacing={6}
-      py={5}
+      py={4}
       px={{ base: 4, md: 0 }}
       borderBottom="1px solid"
       borderColor="whiteAlpha.200"
@@ -85,7 +88,7 @@ const MessageHeader: React.FC<MessageHeaderProps> = ({
             </AvatarGroup>
           </Box>
           <Text fontWeight={100}>
-            {formatUsernames(conversation.participants, userId)}
+            {formatUsernames_forConversation(conversation.participants, userId)}
           </Text>
         </Flex>
       )}
