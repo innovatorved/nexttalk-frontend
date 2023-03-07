@@ -12,9 +12,14 @@ export const formatUsernames = (
     .filter((participant) => participant.user.id != myUserId)
     .map((participant) => participant.user.username);
 
-  return usernames.join(", ");
-};
+  let formattedUsernames = usernames.join(", ").slice(0, 20);
 
+  if (usernames.join(", ").length > 20) {
+    formattedUsernames += "...";
+  }
+
+  return formattedUsernames;
+};
 export const userIdImageDict = (
   data: ConversationsData
 ): Record<string, string> => {

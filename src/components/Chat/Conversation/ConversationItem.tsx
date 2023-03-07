@@ -33,7 +33,7 @@ interface ConversationItemProps {
   isSelected: boolean;
   recipitentImages: string[];
   // onEditConversation?: () => void;
-  // hasSeenLatestMessage?: boolean;
+  hasSeenLatestMessage?: boolean;
   selectedConversationId?: string;
   // onDeleteConversation?: (conversationId: string) => void;
   // onLeaveConversation?: (conversation: ConversationPopulated) => void;
@@ -46,7 +46,7 @@ const ConversationItem: React.FC<ConversationItemProps> = ({
   recipitentImages,
   isSelected,
   selectedConversationId,
-  // hasSeenLatestMessage,
+  hasSeenLatestMessage,
   // onEditConversation,
   // onDeleteConversation,
   // onLeaveConversation,
@@ -70,9 +70,10 @@ const ConversationItem: React.FC<ConversationItemProps> = ({
       direction="row"
       align="center"
       justify="space-between"
-      m={1}
+      mt={1}
       py={2}
       pr={2}
+      pl={3}
       cursor="pointer"
       borderRadius={4}
       bg={
@@ -119,11 +120,11 @@ const ConversationItem: React.FC<ConversationItemProps> = ({
           </MenuList>
         </Menu>
       )}
-      {/* <Flex position="absolute" left="-6px">
+      <Flex position="absolute" left="-1px">
         {hasSeenLatestMessage === false && (
-          <GoPrimitiveDot fontSize={18} color="#6B46C1" />
+          <GoPrimitiveDot fontSize={14} color="#6B46C1" />
         )}
-      </Flex> */}
+      </Flex>
       <Box minW="100px">
         <AvatarGroup size="md" max={1} border="">
           {recipitentImages.map((image, id) => {
@@ -151,14 +152,14 @@ const ConversationItem: React.FC<ConversationItemProps> = ({
             {formatUsernames(conversation.participants, userId)}
           </Text>
           {conversation.latestMessage && (
-            <Box width="140%" fontSize={14}>
+            <Box width="70%" fontSize={14}>
               <Text
                 color="whiteAlpha.700"
                 whiteSpace="nowrap"
                 overflow="hidden"
                 textOverflow="ellipsis"
               >
-                {conversation.latestMessage.body}
+                {conversation.latestMessage.body.slice(0, 20)}
               </Text>
             </Box>
           )}

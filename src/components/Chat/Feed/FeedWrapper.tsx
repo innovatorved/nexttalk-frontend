@@ -26,7 +26,7 @@ const FeedWrapper: React.FC<FeedWrapperProps> = ({ session, userImage }) => {
     >
       {conversationId && typeof conversationId === "string" ? (
         <>
-          <Flex>
+          <Flex direction="column" flexGrow={1}>
             <MessageHeader
               userId={userId}
               userImage={userImage}
