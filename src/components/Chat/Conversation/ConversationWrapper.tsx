@@ -4,12 +4,19 @@ import ConversationList from "./ConversationList";
 import SkeletonLoader from "@/components/Loader/SkeletonLoader";
 
 import { signOut } from "next-auth/react";
-import { useQuery } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import conversationOperation from "@/graphql/operations/converation";
 import { useEffect } from "react";
-import { ConversationsData, ConversationPopulated } from "@/util/types";
+import {
+  ConversationsData,
+  ConversationPopulated,
+  ParticipantPopulated,
+} from "@/util/types";
 import { useRouter } from "next/router";
 import { userIdImageDict } from "@/util/functions";
+
+import ConversationOperations from "@/graphql/operations/converation";
+import { toast } from "react-hot-toast";
 
 interface ConversationWrapperProps {
   session: Session;
@@ -37,14 +44,112 @@ const ConversationWrapper: React.FC<ConversationWrapperProps> = ({
   }, [converationsData]);
 
   const router = useRouter();
-  const onViewConversation = async (conversationId: string) => {
+
+  const { id: userId } = session.user;
+
+  const [markConversationAsRead] = useMutation<
+    { markConversationAsRead: true },
+    { userId: string; conversationId: string }
+  >(ConversationOperations.Mutations.markConversationAsRead);
+
+  const onViewConversation = async (
+    conversationId: string,
+    hasSeenLatestMessage: boolean
+  ) => {
+    router.push({ query: { conversationId } });
+
+    /**
+     * Only mark as read if conversation is unread
+     */
+    if (hasSeenLatestMessage) return;
+
     /**
      * 1. push the conversationId to the router query string
      * 2. Mark the conversation as read
      */
 
-    router.push({ query: { conversationId } });
+    try {
+      await markConversationAsRead({
+        variables: {
+          userId,
+          conversationId,
+        },
+        optimisticResponse: {
+          markConversationAsRead: true,
+        },
+        update: (cache) => {
+          /**
+           * Get conversation participants
+           * from cache
+           */
+          const participantsFragment = cache.readFragment<{
+            participants: Array<ParticipantPopulated>;
+          }>({
+            id: `Conversation:${conversationId}`,
+            fragment: gql`
+              fragment Participants on Conversation {
+                participants {
+                  user {
+                    id
+                    username
+                  }
+                  hasSeenLatestMessage
+                }
+              }
+            `,
+          });
+
+          if (!participantsFragment) return;
+
+          /**
+           * Create copy to
+           * allow mutation
+           */
+          const participants = [...participantsFragment.participants];
+
+          const userParticipantIdx = participants.findIndex(
+            (p) => p.user.id === userId
+          );
+
+          /**
+           * Should always be found
+           * but just in case
+           */
+          if (userParticipantIdx === -1) return;
+
+          const userParticipant = participants[userParticipantIdx];
+
+          /**
+           * Update user to show latest
+           * message as read
+           */
+          participants[userParticipantIdx] = {
+            ...userParticipant,
+            hasSeenLatestMessage: true,
+          };
+
+          /**
+           * Update cache
+           */
+          cache.writeFragment({
+            id: `Conversation:${conversationId}`,
+            fragment: gql`
+              fragment UpdatedParticipants on Conversation {
+                participants
+              }
+            `,
+            data: {
+              participants,
+            },
+          });
+        },
+      });
+    } catch (error) {
+      console.log("onViewConversation error", error);
+      toast.error("On View Conversation Error");
+    }
   };
+
   const { conversationId } = router?.query;
 
   const subscribeToNewConversations = () => {

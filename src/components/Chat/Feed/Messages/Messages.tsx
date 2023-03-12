@@ -24,22 +24,6 @@ const Messages: React.FC<MessagesProps> = ({
   conversationId,
   userImage,
 }) => {
-  const { data, loading, error, subscribeToMore } = useQuery<
-    MessagesData,
-    MessagesVariables
-  >(MessageOperations.Query.messages, {
-    variables: {
-      conversationId,
-    },
-    onError: ({ message }) => {
-      toast.error(message);
-    },
-  });
-
-  if (error) {
-    return null;
-  }
-
   const subscribeToMoreMessages = (conversationId: string) => {
     return subscribeToMore({
       document: MessageOperations.Subscription.messageSend,
@@ -60,12 +44,27 @@ const Messages: React.FC<MessagesProps> = ({
       },
     });
   };
-
   useEffect(() => {
     const unsubscribe = subscribeToMoreMessages(conversationId);
 
     return () => unsubscribe();
   }, [conversationId]);
+
+  const { data, loading, error, subscribeToMore } = useQuery<
+    MessagesData,
+    MessagesVariables
+  >(MessageOperations.Query.messages, {
+    variables: {
+      conversationId,
+    },
+    onError: ({ message }) => {
+      toast.error(message);
+    },
+  });
+
+  if (error) {
+    return null;
+  }
 
   return (
     <Flex direction="column" justify="flex-end" overflow="hidden">

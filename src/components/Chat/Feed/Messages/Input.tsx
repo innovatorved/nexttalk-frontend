@@ -28,8 +28,8 @@ const MessageInput: React.FC<MessageInputProps> = ({
   const onSendMessage = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const regex_check: RegExp = /^[^\s\0]+$/;
-    if (!regex_check.test(message)) {
+    const regex_check: RegExp = /^\s*$/;
+    if (regex_check.test(message)) {
       toast.error("Write Something...");
       return;
     }

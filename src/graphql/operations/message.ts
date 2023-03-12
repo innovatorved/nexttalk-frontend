@@ -11,7 +11,7 @@ export const MessageFields = `
     createdAt
 `;
 
-export default {
+const MessageOperation = {
   Query: {
     messages: gql`
         query Messages($conversationId : String!){
@@ -48,3 +48,5 @@ export default {
     `,
   },
 };
+
+export default MessageOperation;

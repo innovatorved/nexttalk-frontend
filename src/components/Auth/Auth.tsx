@@ -84,7 +84,9 @@ const Auth: React.FC<IAuthProps> = ({ session, reloadSession }) => {
             onClick={() => {
               signIn("google");
             }}
-            leftIcon={<Image height="20px" src="/images/google.png" />}
+            leftIcon={
+              <Image height="20px" alt="Google Logo" src="/images/google.png" />
+            }
           >
             Continue with Google
           </Button>

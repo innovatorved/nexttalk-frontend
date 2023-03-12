@@ -1,5 +1,5 @@
 import { findRecipientImages } from "@/util/functions";
-import { ConversationPopulated } from "@/util/types";
+import { ConversationPopulated, ParticipantPopulated } from "@/util/types";
 import { Box, Button, Text } from "@chakra-ui/react";
 import { Session } from "next-auth";
 import { useRouter } from "next/router";
@@ -12,7 +12,10 @@ interface ConversationListProps {
   session: Session;
   conversations: Array<ConversationPopulated>;
   userImage: { [key: string]: string };
-  onViewConversation: (conversationId: string) => void;
+  onViewConversation: (
+    conversationId: string,
+    hasSeenLatestMessage: boolean
+  ) => void;
 }
 
 const ConversationList: React.FC<ConversationListProps> = ({
@@ -30,6 +33,12 @@ const ConversationList: React.FC<ConversationListProps> = ({
   } = session;
 
   const router = useRouter();
+
+  const getUserParticipantObject = (conversation: ConversationPopulated) => {
+    return conversation.participants.find(
+      (p) => p.user.id === session.user.id
+    ) as ParticipantPopulated;
+  };
 
   return (
     <Box width="100%">
@@ -62,14 +71,17 @@ const ConversationList: React.FC<ConversationListProps> = ({
           userId,
           userImage
         );
+        const { hasSeenLatestMessage } = getUserParticipantObject(conversation);
         return (
           <ConversationItem
             conversation={conversation}
-            hasSeenLatestMessage={false}
+            hasSeenLatestMessage={hasSeenLatestMessage}
             userId={userId}
             recipitentImages={recipitentImages}
             key={conversation.id}
-            onClick={() => onViewConversation(conversation.id)}
+            onClick={() =>
+              onViewConversation(conversation.id, hasSeenLatestMessage)
+            }
             isSelected={conversation.id === router.query.conversationId}
             selectedConversationId={router.query.conversationId as string}
           />

@@ -17,7 +17,7 @@ const ConversationFields = `
   updatedAt
 `;
 
-export default {
+const ConversationOperation = {
   Queries: {
     conversations: gql`
       query Conversations {
@@ -35,6 +35,30 @@ export default {
         }
       }
     `,
+    markConversationAsRead: gql`
+      mutation MarkConversationAsRead(
+        $userId: String!
+        $conversationId: String!
+      ) {
+        markConversationAsRead(userId: $userId, conversationId: $conversationId)
+      }
+    `,
+    deleteConversation: gql`
+      mutation deleteConversation($conversationId: String!) {
+        deleteConversation(conversationId: $conversationId)
+      }
+    `,
+    updateParticipants: gql`
+      mutation UpdateParticipants(
+        $conversationId: String!
+        $participantIds: [String]!
+      ) {
+        updateParticipants(
+          conversationId: $conversationId
+          participantIds: $participantIds
+        )
+      }
+    `,
   },
   Subscription: {
     conversationCreated: gql`
@@ -44,5 +68,25 @@ export default {
         }
       }
     `,
+    conversationUpdated: gql`
+    subscription ConversationUpdated {
+      conversationUpdated {
+        conversation {
+          ${ConversationFields}
+        }
+        addedUserIds
+        removedUserIds
+      }
+    }
+  `,
+    conversationDeleted: gql`
+      subscription ConversationDeleted {
+        conversationDeleted {
+          id
+        }
+      }
+    `,
   },
 };
+
+export default ConversationOperation;
