@@ -69,16 +69,16 @@ const ConversationOperation = {
       }
     `,
     conversationUpdated: gql`
-    subscription ConversationUpdated {
-      conversationUpdated {
-        conversation {
-          ${ConversationFields}
+      subscription ConversationUpdated {
+        conversationUpdated {
+          conversation {
+            ${ConversationFields}
+          }
+          addedUserIds
+          removedUserIds
         }
-        addedUserIds
-        removedUserIds
       }
-    }
-  `,
+    `,
     conversationDeleted: gql`
       subscription ConversationDeleted {
         conversationDeleted {

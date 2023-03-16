@@ -1,16 +1,21 @@
+import { useEffect } from "react";
 import { Box, Button, Stack } from "@chakra-ui/react";
 import { Session } from "next-auth";
 import ConversationList from "./ConversationList";
 import SkeletonLoader from "@/components/Loader/SkeletonLoader";
 
 import { signOut } from "next-auth/react";
-import { gql, useMutation, useQuery } from "@apollo/client";
+import { gql, useMutation, useQuery, useSubscription } from "@apollo/client";
 import conversationOperation from "@/graphql/operations/converation";
-import { useEffect } from "react";
+import MessageOperations from "@/graphql/operations/message";
+
 import {
   ConversationsData,
+  ConversationDeletedData,
   ConversationPopulated,
   ParticipantPopulated,
+  ConversationUpdatedData,
+  MessagesData,
 } from "@/util/types";
 import { useRouter } from "next/router";
 import { userIdImageDict } from "@/util/functions";
@@ -29,6 +34,10 @@ const ConversationWrapper: React.FC<ConversationWrapperProps> = ({
   setUserImage,
   userImage,
 }) => {
+  const router = useRouter();
+  const { id: userId } = session.user;
+  const { conversationId } = router?.query;
+
   const {
     data: converationsData,
     error: conversationsError,
@@ -43,14 +52,170 @@ const ConversationWrapper: React.FC<ConversationWrapperProps> = ({
     setUserImage(imageData);
   }, [converationsData]);
 
-  const router = useRouter();
-
-  const { id: userId } = session.user;
-
   const [markConversationAsRead] = useMutation<
     { markConversationAsRead: true },
     { userId: string; conversationId: string }
   >(ConversationOperations.Mutations.markConversationAsRead);
+
+  /**
+   * Subscriptions
+   */
+  useSubscription<ConversationUpdatedData, any>(
+    ConversationOperations.Subscription.conversationUpdated,
+    {
+      onData: ({ client, data }) => {
+        const { data: subscriptionData } = data;
+
+        if (!subscriptionData) return;
+
+        const {
+          conversationUpdated: {
+            conversation: updatedConversation,
+            addedUserIds,
+            removedUserIds,
+          },
+        } = subscriptionData;
+
+        const { id: updatedConversationId, latestMessage } =
+          updatedConversation;
+
+        /**
+         * Check if user is being removed
+         */
+        if (removedUserIds && removedUserIds.length) {
+          const isBeingRemoved = removedUserIds.find((id) => id === userId);
+
+          if (isBeingRemoved) {
+            const conversationsData = client.readQuery<ConversationsData>({
+              query: ConversationOperations.Queries.conversations,
+            });
+
+            if (!conversationsData) return;
+
+            client.writeQuery<ConversationsData>({
+              query: ConversationOperations.Queries.conversations,
+              data: {
+                conversations: conversationsData.conversations.filter(
+                  (c) => c.id !== updatedConversationId
+                ),
+              },
+            });
+
+            if (conversationId === updatedConversationId) {
+              router.replace(
+                typeof process.env.NEXT_PUBLIC_BASE_URL === "string"
+                  ? process.env.NEXT_PUBLIC_BASE_URL
+                  : ""
+              );
+            }
+
+            /**
+             * Early return - no more updates required
+             */
+            return;
+          }
+        }
+
+        /**
+         * Check if user is being added to conversation
+         */
+        if (addedUserIds && addedUserIds.length) {
+          const isBeingAdded = addedUserIds.find((id) => id === userId);
+
+          if (isBeingAdded) {
+            const conversationsData = client.readQuery<ConversationsData>({
+              query: ConversationOperations.Queries.conversations,
+            });
+
+            if (!conversationsData) return;
+
+            client.writeQuery<ConversationsData>({
+              query: ConversationOperations.Queries.conversations,
+              data: {
+                conversations: [
+                  ...(conversationsData.conversations || []),
+                  updatedConversation,
+                ],
+              },
+            });
+          }
+        }
+
+        /**
+         * Already viewing conversation where
+         * new message is received; no need
+         * to manually update cache due to
+         * message subscription
+         */
+        if (updatedConversationId === conversationId) {
+          onViewConversation(conversationId, false);
+          return;
+        }
+
+        const existing = client.readQuery<MessagesData>({
+          query: MessageOperations.Query.messages,
+          variables: { conversationId: updatedConversationId },
+        });
+
+        if (!existing) return;
+
+        /**
+         * Check if lastest message is already present
+         * in the message query
+         */
+        const hasLatestMessage = existing.messages.find(
+          (m) => m.id === latestMessage.id
+        );
+
+        /**
+         * Update query as re-fetch won't happen if you
+         * view a conversation you've already viewed due
+         * to caching
+         */
+        if (!hasLatestMessage) {
+          client.writeQuery<MessagesData>({
+            query: MessageOperations.Query.messages,
+            variables: { conversationId: updatedConversationId },
+            data: {
+              ...existing,
+              messages: [latestMessage, ...existing.messages],
+            },
+          });
+        }
+      },
+    }
+  );
+
+  useSubscription<ConversationDeletedData, any>(
+    ConversationOperations.Subscription.conversationDeleted,
+    {
+      onData: ({ client, data }) => {
+        const { data: subscriptionData } = data;
+
+        if (!subscriptionData) return;
+
+        const existing = client.readQuery<ConversationsData>({
+          query: ConversationOperations.Queries.conversations,
+        });
+
+        if (!existing) return;
+
+        const { conversations } = existing;
+        const {
+          conversationDeleted: { id: deletedConversationId },
+        } = subscriptionData;
+
+        client.writeQuery<ConversationsData>({
+          query: ConversationOperations.Queries.conversations,
+          data: {
+            conversations: conversations.filter(
+              (conversation) => conversation.id !== deletedConversationId
+            ),
+          },
+        });
+      },
+    }
+  );
 
   const onViewConversation = async (
     conversationId: string,
@@ -149,8 +314,6 @@ const ConversationWrapper: React.FC<ConversationWrapperProps> = ({
       toast.error("On View Conversation Error");
     }
   };
-
-  const { conversationId } = router?.query;
 
   const subscribeToNewConversations = () => {
     subscribeToMore({

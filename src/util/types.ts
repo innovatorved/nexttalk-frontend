@@ -108,6 +108,22 @@ export interface ConversationDeletedSubscriptionPayload {
   conversationDeleted: ConversationPopulated;
 }
 
+export interface ConversationDeletedData {
+  conversationDeleted: {
+    id: string;
+  };
+}
+
+export interface ConversationUpdatedData {
+  conversationUpdated: {
+    conversation: Omit<ConversationPopulated, "latestMessage"> & {
+      latestMessage: MessagePopulated;
+    };
+    addedUserIds: Array<string> | null;
+    removedUserIds: Array<string> | null;
+  };
+}
+
 /**
  * Message
  */
