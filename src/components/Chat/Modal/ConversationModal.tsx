@@ -111,6 +111,14 @@ const ConversationModal: React.FC<ConversationModalProps> = ({
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    //  regex to check username is empty
+    const regex = /^\s*$/;
+    if (regex.test(username)) {
+      toast.error("Username is empty");
+      return;
+    }
+
     searchUsers({ variables: { username } });
   };
   return (
