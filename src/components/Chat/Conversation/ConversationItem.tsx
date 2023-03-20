@@ -79,16 +79,17 @@ const ConversationItem: React.FC<ConversationItemProps> = ({
       bg={
         conversation.id === selectedConversationId ? "whiteAlpha.200" : "none"
       }
-      _hover={{ bg: "whiteAlpha.200" }}
+      _hover={{ bg: "whiteAlpha.500" }}
       onClick={handleClick}
       onContextMenu={handleClick}
       position="relative"
     >
       {showMenu && (
         <Menu isOpen={menuOpen} onClose={() => setMenuOpen(false)}>
-          <MenuList bg="#2d2d2d">
+          <MenuList bg="#35343b">
             <MenuItem
-              bg="#2d2d2d"
+              bg="#35343b"
+              _hover={{ bg: "#2d2d2d" }}
               icon={<AiOutlineEdit fontSize={20} />}
               onClick={(event) => {
                 event.stopPropagation();
@@ -99,6 +100,8 @@ const ConversationItem: React.FC<ConversationItemProps> = ({
             </MenuItem>
             {conversation.participants.length > 2 ? (
               <MenuItem
+              bg="#35343b"
+              _hover={{ bg: "#2d2d2d" }}
                 icon={<BiLogOut fontSize={20} />}
                 onClick={(event) => {
                   event.stopPropagation();
@@ -109,6 +112,9 @@ const ConversationItem: React.FC<ConversationItemProps> = ({
               </MenuItem>
             ) : (
               <MenuItem
+              bg="#35343b"
+              _hover={{ bg: "#2d2d2d" }}
+              
                 icon={<MdDeleteOutline fontSize={20} />}
                 onClick={(event) => {
                   event.stopPropagation();
