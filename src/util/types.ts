@@ -124,6 +124,24 @@ export interface ConversationUpdatedData {
   };
 }
 
+//  Delete Conversation Mutation Types
+export interface DeleteConversationResponse {
+  deleteConversation: boolean;
+}
+
+export interface DeleteConversationVariables {
+  conversationId: string;
+}
+
+export interface UpdateParticipantsResponse {
+  updateParticipants: boolean;
+}
+
+export interface UpdateParticipantsVariables {
+  conversationId: string;
+  participantIds: Array<string>;
+}
+
 /**
  * Message
  */
