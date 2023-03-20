@@ -4,6 +4,8 @@ import { Session } from "next-auth";
 import ConversationList from "./ConversationList";
 import SkeletonLoader from "@/components/Loader/SkeletonLoader";
 
+import { RiLogoutCircleLine } from "react-icons/ri";
+
 import { signOut } from "next-auth/react";
 import { gql, useMutation, useQuery, useSubscription } from "@apollo/client";
 import conversationOperation from "@/graphql/operations/converation";
@@ -350,6 +352,7 @@ const ConversationWrapper: React.FC<ConversationWrapperProps> = ({
       bg="whiteAlpha.50"
       py={6}
       px={3}
+      pb="30px"
       overflowY="scroll"
       display={{ base: conversationId ? "none" : "block", md: "block" }}
     >
@@ -366,16 +369,26 @@ const ConversationWrapper: React.FC<ConversationWrapperProps> = ({
         />
       )}
 
-      <Button
-        onClick={() => signOut()}
-        width="100%"
-        textAlign="center"
-        mt={8}
-        color="whiteAlpha.800"
-        fontWeight={100}
+      <Box
+        position="fixed"
+        bottom="10px"
+        width="45px"
+        zIndex={2}
+        title="Logout from Chat"
       >
-        Logout
-      </Button>
+        <Button
+          bg="#45444a"
+          onClick={() => signOut()}
+          width="100%"
+          textAlign="center"
+          mt={8}
+          color="whiteAlpha.800"
+          fontWeight={100}
+          borderRadius="40%"
+        >
+          <RiLogoutCircleLine />
+        </Button>
+      </Box>
     </Box>
   );
 };
