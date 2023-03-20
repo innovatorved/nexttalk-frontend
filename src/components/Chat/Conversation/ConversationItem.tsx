@@ -100,8 +100,8 @@ const ConversationItem: React.FC<ConversationItemProps> = ({
             </MenuItem>
             {conversation.participants.length > 2 ? (
               <MenuItem
-              bg="#35343b"
-              _hover={{ bg: "#2d2d2d" }}
+                bg="#35343b"
+                _hover={{ bg: "#2d2d2d" }}
                 icon={<BiLogOut fontSize={20} />}
                 onClick={(event) => {
                   event.stopPropagation();
@@ -112,9 +112,8 @@ const ConversationItem: React.FC<ConversationItemProps> = ({
               </MenuItem>
             ) : (
               <MenuItem
-              bg="#35343b"
-              _hover={{ bg: "#2d2d2d" }}
-              
+                bg="#35343b"
+                _hover={{ bg: "#2d2d2d" }}
                 icon={<MdDeleteOutline fontSize={20} />}
                 onClick={(event) => {
                   event.stopPropagation();
