@@ -1,12 +1,10 @@
 import { useEffect } from "react";
-import { Box, Button, Stack } from "@chakra-ui/react";
+import { Box, Stack } from "@chakra-ui/react";
 import { Session } from "next-auth";
 import ConversationList from "./ConversationList";
 import SkeletonLoader from "@/components/Loader/SkeletonLoader";
+import Logout from "@/components/Auth/Logout"; 
 
-import { RiLogoutCircleLine } from "react-icons/ri";
-
-import { signOut } from "next-auth/react";
 import { gql, useMutation, useQuery, useSubscription } from "@apollo/client";
 import conversationOperation from "@/graphql/operations/converation";
 import MessageOperations from "@/graphql/operations/message";
@@ -369,26 +367,7 @@ const ConversationWrapper: React.FC<ConversationWrapperProps> = ({
         />
       )}
 
-      <Box
-        position="fixed"
-        bottom="10px"
-        width="45px"
-        zIndex={2}
-        title="Logout from Chat"
-      >
-        <Button
-          bg="#45444a"
-          onClick={() => signOut()}
-          width="100%"
-          textAlign="center"
-          mt={8}
-          color="whiteAlpha.800"
-          fontWeight={100}
-          borderRadius="40%"
-        >
-          <RiLogoutCircleLine />
-        </Button>
-      </Box>
+     <Logout/>
     </Box>
   );
 };
