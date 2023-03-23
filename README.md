@@ -24,7 +24,12 @@ To run the application locally, follow these steps:
 ```bash
     cp .env.example .env.local
 ```
-4. Start the serve :
+4. Set up Prisma Configuration
+
+```bash
+    npx prisma generate
+```
+5. Start the serve :
 
 For Development server change the `NODE_ENV` variable in `.env.local` to `development` and run the following command:
 
@@ -37,7 +42,7 @@ For Production server change the `NODE_ENV` variable in `.env.local` to `product
     npm run build
     npm run start
 ```
-5. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+6. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 
 Note : Make sure to replace the values in `.env.local` with your own values.
