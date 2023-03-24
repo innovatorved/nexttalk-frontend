@@ -28,7 +28,6 @@ export default NextAuth({
     sessionToken: {
       name: `__Secure-next-auth.session-token`,
       options: {
-        domain : DOMAIN,
         httpOnly: true,
         sameSite: 'lax',
         path: '/',
@@ -38,7 +37,6 @@ export default NextAuth({
     callbackUrl: {
       name: `__Secure-next-auth.callback-url`,
       options: {
-        domain : DOMAIN,
         sameSite: 'lax',
         path: '/',
         secure: true
