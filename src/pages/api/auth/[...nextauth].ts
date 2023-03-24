@@ -28,7 +28,7 @@ export default NextAuth({
     sessionToken: {
       name: "next-auth.session-token",
       options: {
-        domain : [process.env.NODE_ENV === "production" ? DOMAIN : "localhost" , 'nexttalk.vercel.app'],
+        domain : process.env.NODE_ENV === "production" ? DOMAIN : "localhost",
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         sameSite: "lax",
