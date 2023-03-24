@@ -7,6 +7,7 @@ import {
   GOOGLE_CLIENT_ID,
   GOOGLE_CLIENT_SECRET,
   NEXTAUTH_SECRET,
+  DOMAIN,
 } from "../../../constants/index";
 
 export default NextAuth({
@@ -23,4 +24,16 @@ export default NextAuth({
       return { ...session, user: { ...session.user, ...user } };
     },
   },
+  cookies: {
+    sessionToken: {
+      name: "next-auth.session-token",
+      options: {
+        domain : process.env.NODE_ENV === "production" ? DOMAIN : "localhost",
+        httpOnly: true,
+        sameSite: "none",
+        path: "/",
+        secure: process.env.NODE_ENV === "production",
+      },
+    }
+  }
 });

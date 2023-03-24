@@ -9,3 +9,4 @@ export const NEXT_PUBLIC_BASE_URL = process.env.NEXT_PUBLIC_BASE_URL as string;
 
 export const BACKEND_ENDPOINT = "https://nexttalk.fly.dev/graphql";
 export const WS_ENDPOINT = "ws://nexttalk.fly.dev/graphql/subscriptions";
+export const DOMAIN = "nexttalk.fly.dev";
