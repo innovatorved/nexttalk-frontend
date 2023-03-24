@@ -30,9 +30,9 @@ export default NextAuth({
       options: {
         domain : process.env.NODE_ENV === "production" ? DOMAIN : "localhost",
         httpOnly: true,
-        sameSite: "none",
-        path: "/",
         secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+        path: "/",
       },
     }
   }
