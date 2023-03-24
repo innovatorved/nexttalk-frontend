@@ -26,14 +26,23 @@ export default NextAuth({
   },
   cookies: {
     sessionToken: {
-      name: "next-auth.session-token",
+      name: `__Secure-next-auth.session-token`,
       options: {
-        domain : process.env.NODE_ENV === "production" ? DOMAIN : "localhost",
+        domain : DOMAIN,
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "lax",
-        path: "/",
-      },
-    }
+        sameSite: 'lax',
+        path: '/',
+        secure: true
+      }
+    },
+    callbackUrl: {
+      name: `__Secure-next-auth.callback-url`,
+      options: {
+        domain : DOMAIN,
+        sameSite: 'lax',
+        path: '/',
+        secure: true
+      }
+    },
   }
 });
