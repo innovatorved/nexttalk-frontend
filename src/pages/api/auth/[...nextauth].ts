@@ -31,7 +31,8 @@ export default NextAuth({
         httpOnly: true,
         sameSite: 'lax',
         path: '/',
-        secure: true
+        secure: true,
+        domain: 'nexttalk.fly.dev'
       }
     },
     callbackUrl: {
@@ -39,7 +40,8 @@ export default NextAuth({
       options: {
         sameSite: 'lax',
         path: '/',
-        secure: true
+        secure: true,
+        domain: 'nexttalk.fly.dev'
       }
     },
   }
