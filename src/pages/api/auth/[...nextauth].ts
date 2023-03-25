@@ -32,7 +32,6 @@ export default NextAuth({
         sameSite: 'lax',
         path: '/',
         secure: true,
-        domain: ['nexttalk.fly.dev' , 'nexttalk.vercel.app']
       }
     },
     callbackUrl: {
@@ -41,7 +40,6 @@ export default NextAuth({
         sameSite: 'lax',
         path: '/',
         secure: true,
-        domain: ['nexttalk.fly.dev' , 'nexttalk.vercel.app']
       }
     },
   }
