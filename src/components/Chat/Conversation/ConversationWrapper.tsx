@@ -3,7 +3,7 @@ import { Box, Stack } from "@chakra-ui/react";
 import { Session } from "next-auth";
 import ConversationList from "./ConversationList";
 import SkeletonLoader from "@/components/Loader/SkeletonLoader";
-import Logout from "@/components/Auth/Logout"; 
+import Logout from "@/components/Auth/Logout";
 
 import { gql, useMutation, useQuery, useSubscription } from "@apollo/client";
 import conversationOperation from "@/graphql/operations/converation";
@@ -367,7 +367,7 @@ const ConversationWrapper: React.FC<ConversationWrapperProps> = ({
         />
       )}
 
-     <Logout/>
+      <Logout />
     </Box>
   );
 };
