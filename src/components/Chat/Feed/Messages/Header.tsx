@@ -12,6 +12,7 @@ import { useRouter } from "next/router";
 import React from "react";
 import ConversationOperations from "@/graphql/operations/converation";
 import {
+  checkIsUserIsFromMobile,
   findRecipientImages,
   formatUsernames_forConversation,
 } from "@/util/functions";
@@ -73,7 +74,11 @@ const MessageHeader: React.FC<MessageHeaderProps> = ({
         <Flex direction="row" align="center" gap="10px">
           <Text color="whiteAlpha.600">To: </Text>
           <Box minW="100px">
-            <AvatarGroup size="md" max={3} border="">
+            <AvatarGroup
+              size="md"
+              max={checkIsUserIsFromMobile() ? 2 : 3}
+              border=""
+            >
               {recipitentImages.map((image, id) => {
                 if (id > 2) return <></>;
                 return (

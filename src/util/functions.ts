@@ -4,6 +4,11 @@ import {
   ConversationPopulated,
 } from "@/util/types";
 
+export const checkIsUserIsFromMobile = (): boolean => {
+  const isMobile = window.innerWidth <= 768;
+  return isMobile;
+};
+
 export const formatUsernames_forFeed = (
   participants: Array<ParticipantPopulated>,
   myUserId: string
@@ -11,6 +16,14 @@ export const formatUsernames_forFeed = (
   const usernames = participants
     .filter((participant) => participant.user.id != myUserId)
     .map((participant) => participant.user.username);
+
+  if (checkIsUserIsFromMobile()) {
+    let formattedUsernames = usernames.join(", ").slice(0, 12);
+    if (usernames.join(", ").length > 12) {
+      formattedUsernames += "..";
+    }
+    return formattedUsernames;
+  }
 
   let formattedUsernames = usernames.join(", ").slice(0, 20);
 
@@ -28,8 +41,15 @@ export const formatUsernames_forConversation = (
   const usernames = participants
     .filter((participant) => participant.user.id != myUserId)
     .map((participant) => participant.user.username);
-
   let formattedUsernames = usernames.join(", ");
+
+  if (checkIsUserIsFromMobile()) {
+    let SliceUsernames = formattedUsernames.slice(0, 15);
+    if (formattedUsernames.length > 15) {
+      SliceUsernames += "..";
+    }
+    return SliceUsernames;
+  }
 
   return formattedUsernames;
 };
