@@ -9,5 +9,5 @@ export const NEXT_PUBLIC_BASE_URL = process.env.NEXT_PUBLIC_BASE_URL as string;
 
 export const BACKEND_ENDPOINT = "https://backend.nextinnovate.tech/graphql";
 export const WS_ENDPOINT =
-  "ws://backend.nextinnovate.tech/graphql/subscriptions";
+  "wss://backend.nextinnovate.tech/graphql/subscriptions";
 export const DOMAIN = "backend.nextinnovate.tech";
