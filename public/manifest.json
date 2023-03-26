@@ -3,7 +3,7 @@
   "short_name": "NextTalk",
   "start_url": "/",
   "display": "standalone",
-  "theme_color": "#ffffff",
+  "theme_color": "#2d2c33",
   "background_color": "#2d2c33",
   "icons": [
     {
