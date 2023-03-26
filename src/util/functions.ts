@@ -9,6 +9,10 @@ export const checkIsUserIsFromMobile = (): boolean => {
   return isMobile;
 };
 
+export const formatLatestMessage = (message: string): string => {
+  return message.length > 30 ? message.slice(0, 28) + "..." : message;
+};
+
 export const formatUsernames_forFeed = (
   participants: Array<ParticipantPopulated>,
   myUserId: string
@@ -16,14 +20,6 @@ export const formatUsernames_forFeed = (
   const usernames = participants
     .filter((participant) => participant.user.id != myUserId)
     .map((participant) => participant.user.username);
-
-  if (checkIsUserIsFromMobile()) {
-    let formattedUsernames = usernames.join(", ").slice(0, 12);
-    if (usernames.join(", ").length > 12) {
-      formattedUsernames += "..";
-    }
-    return formattedUsernames;
-  }
 
   let formattedUsernames = usernames.join(", ").slice(0, 20);
 

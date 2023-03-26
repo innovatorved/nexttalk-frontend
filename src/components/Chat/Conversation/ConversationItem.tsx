@@ -17,7 +17,7 @@ import { MdDeleteOutline } from "react-icons/md";
 import { BiLogOut } from "react-icons/bi";
 import { AiOutlineEdit } from "react-icons/ai";
 import { ConversationPopulated } from "@/util/types";
-import { formatUsernames_forFeed } from "@/util/functions";
+import { formatLatestMessage, formatUsernames_forFeed } from "@/util/functions";
 
 const formatRelativeLocale = {
   lastWeek: "eeee",
@@ -165,7 +165,7 @@ const ConversationItem: React.FC<ConversationItemProps> = ({
                 overflow="hidden"
                 textOverflow="ellipsis"
               >
-                {conversation.latestMessage.body}
+                {formatLatestMessage(conversation.latestMessage.body)}
               </Text>
             </Box>
           )}
