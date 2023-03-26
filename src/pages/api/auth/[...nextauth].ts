@@ -35,14 +35,5 @@ export default NextAuth({
         domains : ".nextinnovate.tech",
       }
     },
-    callbackUrl: {
-      name: process.env.NODE_ENV === 'production' ? `__Secure-next-auth.session-token` : 'next-auth.session-token',
-      options: {
-        sameSite: 'lax',
-        path: '/',
-        secure: process.env.NODE_ENV === 'production' ? true: false,
-        domains : ".nextinnovate.tech",
-      }
-    },
   }
 });
