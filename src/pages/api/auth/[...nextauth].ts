@@ -32,7 +32,7 @@ export default NextAuth({
         sameSite: 'lax',
         path: '/',
         secure: process.env.NODE_ENV === 'production' ? true: false,
-        domains : ".nextinnovate.tech",
+        domain : ".nextinnovate.tech",
       }
     },
   }
