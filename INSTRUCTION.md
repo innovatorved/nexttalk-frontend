@@ -1,4 +1,4 @@
-## Satori Script for og:image gebration
+## Satori Script for og:image genration
 
 ```javascript
 <div
@@ -15,10 +15,9 @@
     fontWeight: 600,
     textAlign: "center",
   }}
-  qa
 >
   <img
-    src="https://usnajdxrvqmvtnunrroc.supabase.co/storage/v1/object/public/image/NextTalkIcon.png?t=2023-03-27T07%3A38%3A04.474Z"
+    src="https://usnajdxrvqmvtnunrroc.supabase.co/storage/v1/object/public/image/NextTalkIcon.png"
     width={250}
   />
   <div
