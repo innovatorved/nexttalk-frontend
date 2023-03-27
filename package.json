@@ -4,10 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "yarn run partytown && next build",
     "start": "next start",
     "lint": "next lint",
-    "pretify": "prettier --write ."
+    "pretify": "prettier --write .",
+    "partytown": "partytown copylib public/~partytown"
   },
   "dependencies": {
     "@apollo/client": "^3.7.7",
@@ -47,3 +48,4 @@
     "trailingComma": "none"
   }
 }
+
