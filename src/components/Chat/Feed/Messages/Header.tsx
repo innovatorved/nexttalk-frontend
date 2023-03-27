@@ -74,11 +74,7 @@ const MessageHeader: React.FC<MessageHeaderProps> = ({
         <Flex direction="row" align="center" gap="10px">
           <Text color="whiteAlpha.600">To: </Text>
           <Box minW="100px">
-            <AvatarGroup
-              size="md"
-              max={checkIsUserIsFromMobile() ? 2 : 3}
-              border=""
-            >
+            <AvatarGroup size={{ base: "sm", md: "md" }} max={3} border="">
               {recipitentImages.map((image, id) => {
                 if (id > 2) return <></>;
                 return (
@@ -92,9 +88,19 @@ const MessageHeader: React.FC<MessageHeaderProps> = ({
               })}
             </AvatarGroup>
           </Box>
-          <Text fontWeight={100}>
-            {formatUsernames_forConversation(conversation.participants, userId)}
-          </Text>
+          <Box width="70%" fontWeight={100}>
+            <Text
+              marginLeft={{ sm: "5px", md: "10px" }}
+              whiteSpace="nowrap"
+              overflow="hidden"
+              textOverflow="ellipsis"
+            >
+              {formatUsernames_forConversation(
+                conversation.participants,
+                userId
+              )}
+            </Text>
+          </Box>
         </Flex>
       )}
     </Stack>

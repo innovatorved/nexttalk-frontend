@@ -1,4 +1,4 @@
-import { Flex } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import { Session } from "next-auth";
 import { useRouter } from "next/router";
 import MessageHeader from "./Messages/Header";
@@ -33,12 +33,12 @@ const FeedWrapper: React.FC<FeedWrapperProps> = ({ session, userImage }) => {
               conversationId={conversationId}
             />
           </Flex>
-
           <Messages
             userId={userId}
             userImage={userImage}
             conversationId={conversationId}
           />
+
           <MessageInput session={session} conversationId={conversationId} />
         </>
       ) : (

@@ -75,12 +75,7 @@ const Messages: React.FC<MessagesProps> = ({
       )}
 
       {data?.messages && (
-        <Flex
-          direction="column-reverse"
-          minH="100vh"
-          overflowY="scroll"
-          height="100%"
-        >
+        <Flex direction="column-reverse" overflowY="scroll" height="100%">
           {data.messages.map((message) => (
             <MessageItem
               userImage={userImage}
