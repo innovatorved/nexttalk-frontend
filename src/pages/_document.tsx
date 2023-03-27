@@ -6,10 +6,18 @@ export default function Document() {
       <Head>
         <title>NextTalk - Your Next Chat App</title>
         <link rel="icon" href="/favicon-dark.ico" />
-        <meta property="og:title" content="NextTalk - Your Next Chat App" />
+        <meta name="robots" content="follow, index" />
+        
+        <meta property="og:title" content="NextTalk" />
+        <meta content="Your Next Chat App" name="description" />
         <meta property="og:type" content="website" />
         <meta property="og:image" content="/images/og-image.png" />
         <meta property="og:url" content="https://nexttalk.nextinnovate.tech/" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content="@innovatorved" />
+        <meta name="twitter:title" content="NextTalk" />
+        <meta name="twitter:description" content="Your Next Chat App" />
+        <meta name="twitter:image" content="https://nexttalk.nextinnovate.tech/" />
 
         <link
           rel="icon"
