@@ -7,7 +7,7 @@ export default function Document() {
         <title>NextTalk - Your Next Chat App</title>
         <link rel="icon" href="/favicon-dark.ico" />
         <meta name="robots" content="follow, index" />
-        
+
         <meta property="og:title" content="NextTalk" />
         <meta content="Your Next Chat App" name="description" />
         <meta property="og:type" content="website" />
@@ -17,7 +17,7 @@ export default function Document() {
         <meta name="twitter:site" content="@innovatorved" />
         <meta name="twitter:title" content="NextTalk" />
         <meta name="twitter:description" content="Your Next Chat App" />
-        <meta name="twitter:image" content="https://nexttalk.nextinnovate.tech/" />
+        <meta name="twitter:image" content="/images/og-image.png" />
 
         <link
           rel="icon"
