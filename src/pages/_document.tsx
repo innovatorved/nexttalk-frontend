@@ -1,22 +1,28 @@
 import { Html, Head, Main, NextScript } from "next/document";
 
 export default function Document() {
+  const meta = {
+    title: "NextTalk",
+    description: "Your Next Chat App",
+    url: "https://nexttalk.nextinnovate.tech/",
+    twitter: "@innovatorved",
+  };
   return (
     <Html lang="en">
       <Head>
-        <title>NextTalk - Your Next Chat App</title>
+        <title>{`${meta.title} - ${meta.description}`}</title>
         <link rel="icon" href="/favicon-dark.ico" />
         <meta name="robots" content="follow, index" />
 
-        <meta property="og:title" content="NextTalk" />
-        <meta content="Your Next Chat App" name="description" />
+        <meta property="og:title" content={meta.title} />
+        <meta content={meta.description} name="description" />
         <meta property="og:type" content="website" />
         <meta property="og:image" content="/images/og-image.png" />
-        <meta property="og:url" content="https://nexttalk.nextinnovate.tech/" />
+        <meta property="og:url" content={meta.url} />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:site" content="@innovatorved" />
-        <meta name="twitter:title" content="NextTalk" />
-        <meta name="twitter:description" content="Your Next Chat App" />
+        <meta name="twitter:site" content={meta.twitter} />
+        <meta name="twitter:title" content={meta.title} />
+        <meta name="twitter:description" content={meta.description} />
         <meta name="twitter:image" content="/images/og-image.png" />
 
         <link
