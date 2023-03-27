@@ -1,5 +1,5 @@
-import { Skeleton } from "@chakra-ui/react";
-import React from "react";
+import { Skeleton } from '@chakra-ui/react';
+import React from 'react';
 
 interface SkeletonLoaderProps {
   count: number;
@@ -10,7 +10,7 @@ interface SkeletonLoaderProps {
 const SkeletonLoader: React.FC<SkeletonLoaderProps> = ({
   count,
   height,
-  width,
+  width
 }) => {
   return (
     <>
@@ -20,7 +20,7 @@ const SkeletonLoader: React.FC<SkeletonLoaderProps> = ({
           startColor="blackAlpha.400"
           endColor="whiteAlpha.300"
           height={height}
-          width={{ base: "full", md: width }}
+          width={{ base: 'full', md: width }}
           borderRadius={4}
         />
       ))}

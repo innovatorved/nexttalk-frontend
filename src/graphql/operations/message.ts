@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client';
 
 export const MessageFields = `
     id
@@ -19,7 +19,7 @@ const MessageOperation = {
                 ${MessageFields}
             }
         }
-    `,
+    `
   },
   Mutation: {
     sendMessage: gql`
@@ -36,7 +36,7 @@ const MessageOperation = {
           body: $body
         )
       }
-    `,
+    `
   },
   Subscription: {
     messageSend: gql`
@@ -45,8 +45,8 @@ const MessageOperation = {
             ${MessageFields}
         }
       }
-    `,
-  },
+    `
+  }
 };
 
 export default MessageOperation;

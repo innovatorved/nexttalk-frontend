@@ -1,8 +1,8 @@
-import { useState } from "react";
-import { Box, Button } from "@chakra-ui/react";
-import { RiLogoutCircleLine } from "react-icons/ri";
+import { useState } from 'react';
+import { Box, Button } from '@chakra-ui/react';
+import { RiLogoutCircleLine } from 'react-icons/ri';
 
-import { signOut } from "next-auth/react";
+import { signOut } from 'next-auth/react';
 
 export default function LogoutButton() {
   const [hovered, setHovered] = useState(false);

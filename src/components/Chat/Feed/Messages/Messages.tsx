@@ -1,17 +1,17 @@
 import {
   MessagesData,
   MessagesVariables,
-  MessagesSubscriptionData,
-} from "@/util/types";
-import { useQuery } from "@apollo/client";
-import { Box, Flex, Stack } from "@chakra-ui/react";
+  MessagesSubscriptionData
+} from '@/util/types';
+import { useQuery } from '@apollo/client';
+import { Box, Flex, Stack } from '@chakra-ui/react';
 
-import MessageOperations from "@/graphql/operations/message";
-import { toast } from "react-hot-toast";
+import MessageOperations from '@/graphql/operations/message';
+import { toast } from 'react-hot-toast';
 
-import SkeletonLoader from "@/components/Loader/SkeletonLoader";
-import MessageItem from "./MessageItem";
-import { useEffect } from "react";
+import SkeletonLoader from '@/components/Loader/SkeletonLoader';
+import MessageItem from './MessageItem';
+import { useEffect } from 'react';
 
 interface MessagesProps {
   userId: string;
@@ -22,13 +22,13 @@ interface MessagesProps {
 const Messages: React.FC<MessagesProps> = ({
   userId,
   conversationId,
-  userImage,
+  userImage
 }) => {
   const subscribeToMoreMessages = (conversationId: string) => {
     return subscribeToMore({
       document: MessageOperations.Subscription.messageSend,
       variables: {
-        conversationId,
+        conversationId
       },
       updateQuery: (prev, { subscriptionData }: MessagesSubscriptionData) => {
         if (!subscriptionData) return prev;
@@ -39,9 +39,9 @@ const Messages: React.FC<MessagesProps> = ({
           messages:
             newMessage.sender.id === userId
               ? prev.messages
-              : [newMessage, ...prev.messages],
+              : [newMessage, ...prev.messages]
         });
-      },
+      }
     });
   };
   useEffect(() => {
@@ -55,11 +55,11 @@ const Messages: React.FC<MessagesProps> = ({
     MessagesVariables
   >(MessageOperations.Query.messages, {
     variables: {
-      conversationId,
+      conversationId
     },
     onError: ({ message }) => {
       toast.error(message);
-    },
+    }
   });
 
   if (error) {

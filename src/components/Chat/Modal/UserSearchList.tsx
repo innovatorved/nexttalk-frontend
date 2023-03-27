@@ -1,5 +1,5 @@
-import { Avatar, Button, Flex, Stack, Text } from "@chakra-ui/react";
-import { SearchedUser } from "../../../util/types";
+import { Avatar, Button, Flex, Stack, Text } from '@chakra-ui/react';
+import { SearchedUser } from '../../../util/types';
 
 interface UserSearchListProps {
   participants: Array<SearchedUser>;
@@ -10,7 +10,7 @@ interface UserSearchListProps {
 const UserSearchList: React.FC<UserSearchListProps> = ({
   participants,
   users,
-  addParticipant,
+  addParticipant
 }) => {
   return (
     <>
@@ -29,7 +29,7 @@ const UserSearchList: React.FC<UserSearchListProps> = ({
               py={2}
               px={4}
               borderRadius={4}
-              _hover={{ bg: "whiteAlpha.200" }}
+              _hover={{ bg: 'whiteAlpha.200' }}
             >
               <Avatar
                 src={
@@ -42,7 +42,7 @@ const UserSearchList: React.FC<UserSearchListProps> = ({
                 {participants.some((u) => u.id === user.id) ? (
                   <Button
                     bg="brand.100"
-                    _hover={{ bg: "brand.100" }}
+                    _hover={{ bg: 'brand.100' }}
                     cursor="initial"
                     disabled={true}
                   >
@@ -51,7 +51,7 @@ const UserSearchList: React.FC<UserSearchListProps> = ({
                 ) : (
                   <Button
                     bg="brand.100"
-                    _hover={{ bg: "brand.100" }}
+                    _hover={{ bg: 'brand.100' }}
                     onClick={() => {
                       addParticipant(user);
                     }}

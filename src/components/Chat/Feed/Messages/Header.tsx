@@ -1,4 +1,4 @@
-import { useQuery } from "@apollo/client";
+import { useQuery } from '@apollo/client';
 import {
   Avatar,
   AvatarGroup,
@@ -6,19 +6,19 @@ import {
   Button,
   Flex,
   Stack,
-  Text,
-} from "@chakra-ui/react";
-import { useRouter } from "next/router";
-import React from "react";
-import ConversationOperations from "@/graphql/operations/converation";
+  Text
+} from '@chakra-ui/react';
+import { useRouter } from 'next/router';
+import React from 'react';
+import ConversationOperations from '@/graphql/operations/converation';
 import {
   checkIsUserIsFromMobile,
   findRecipientImages,
-  formatUsernames_forConversation,
-} from "@/util/functions";
-import { ConversationPopulated, ConversationsData } from "@/util/types";
-import SkeletonLoader from "@/components/Loader/SkeletonLoader";
-import { NEXT_PUBLIC_BASE_URL } from "@/constants";
+  formatUsernames_forConversation
+} from '@/util/functions';
+import { ConversationPopulated, ConversationsData } from '@/util/types';
+import SkeletonLoader from '@/components/Loader/SkeletonLoader';
+import { NEXT_PUBLIC_BASE_URL } from '@/constants';
 
 export interface MessageHeaderProps {
   userId: string;
@@ -29,7 +29,7 @@ export interface MessageHeaderProps {
 const MessageHeader: React.FC<MessageHeaderProps> = ({
   userId,
   userImage,
-  conversationId,
+  conversationId
 }) => {
   const router = useRouter();
   const { data, loading } = useQuery<ConversationsData, any>(
@@ -59,10 +59,10 @@ const MessageHeader: React.FC<MessageHeaderProps> = ({
       pos="sticky"
     >
       <Button
-        display={{ md: "none" }}
+        display={{ md: 'none' }}
         onClick={() =>
-          router.replace("?conversationId", "/", {
-            shallow: true,
+          router.replace('?conversationId', '/', {
+            shallow: true
           })
         }
       >
@@ -74,7 +74,7 @@ const MessageHeader: React.FC<MessageHeaderProps> = ({
         <Flex direction="row" align="center" gap="10px">
           <Text color="whiteAlpha.600">To: </Text>
           <Box minW="2px">
-            <AvatarGroup size={{ base: "sm", md: "md" }} max={3} border="">
+            <AvatarGroup size={{ base: 'sm', md: 'md' }} max={3} border="">
               {recipitentImages.map((image, id) => {
                 if (id > 2) return <></>;
                 return (
@@ -90,7 +90,7 @@ const MessageHeader: React.FC<MessageHeaderProps> = ({
           </Box>
           <Box width="70%" fontWeight={100}>
             <Text
-              marginLeft={{ sm: "5px", md: "10px" }}
+              marginLeft={{ sm: '5px', md: '10px' }}
               whiteSpace="nowrap"
               overflow="hidden"
               textOverflow="ellipsis"

@@ -1,9 +1,9 @@
-import { Button, Flex, Stack, Text } from "@chakra-ui/react";
-import React, { useContext } from "react";
-import { BiMessageSquareDots } from "react-icons/bi";
-import { ConversationsData } from "@/util/types";
-import ConversationOperations from "@/graphql/operations/converation";
-import { useQuery } from "@apollo/client";
+import { Button, Flex, Stack, Text } from '@chakra-ui/react';
+import React, { useContext } from 'react';
+import { BiMessageSquareDots } from 'react-icons/bi';
+import { ConversationsData } from '@/util/types';
+import ConversationOperations from '@/graphql/operations/converation';
+import { useQuery } from '@apollo/client';
 
 const NoConversation: React.FC = () => {
   const { data, loading, error } = useQuery<ConversationsData, any>(
@@ -17,7 +17,7 @@ const NoConversation: React.FC = () => {
   const hasConversations = conversations.length;
 
   const text = hasConversations
-    ? "Select a Conversation"
+    ? 'Select a Conversation'
     : "Let's Get Started 🥳";
   return (
     <Flex height="100%" justify="center" align="center">

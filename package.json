@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.7.7",
+    "@builder.io/partytown": "^0.7.6",
     "@chakra-ui/react": "^2.4.9",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
@@ -38,5 +39,11 @@
     "prettier": "^2.8.4",
     "prisma": "^4.10.1",
     "typescript": "4.9.5"
+  },
+  "prettier": {
+    "arrowParens": "always",
+    "singleQuote": true,
+    "tabWidth": 2,
+    "trailingComma": "none"
   }
 }

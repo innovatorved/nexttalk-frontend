@@ -1,13 +1,13 @@
-import { useEffect } from "react";
-import { Box, Stack } from "@chakra-ui/react";
-import { Session } from "next-auth";
-import ConversationList from "./ConversationList";
-import SkeletonLoader from "@/components/Loader/SkeletonLoader";
-import Logout from "@/components/Auth/Logout";
+import { useEffect } from 'react';
+import { Box, Stack } from '@chakra-ui/react';
+import { Session } from 'next-auth';
+import ConversationList from './ConversationList';
+import SkeletonLoader from '@/components/Loader/SkeletonLoader';
+import Logout from '@/components/Auth/Logout';
 
-import { gql, useMutation, useQuery, useSubscription } from "@apollo/client";
-import conversationOperation from "@/graphql/operations/converation";
-import MessageOperations from "@/graphql/operations/message";
+import { gql, useMutation, useQuery, useSubscription } from '@apollo/client';
+import conversationOperation from '@/graphql/operations/converation';
+import MessageOperations from '@/graphql/operations/message';
 
 import {
   ConversationsData,
@@ -15,13 +15,13 @@ import {
   ConversationPopulated,
   ParticipantPopulated,
   ConversationUpdatedData,
-  MessagesData,
-} from "@/util/types";
-import { useRouter } from "next/router";
-import { userIdImageDict } from "@/util/functions";
+  MessagesData
+} from '@/util/types';
+import { useRouter } from 'next/router';
+import { userIdImageDict } from '@/util/functions';
 
-import ConversationOperations from "@/graphql/operations/converation";
-import { toast } from "react-hot-toast";
+import ConversationOperations from '@/graphql/operations/converation';
+import { toast } from 'react-hot-toast';
 
 interface ConversationWrapperProps {
   session: Session;
@@ -32,7 +32,7 @@ interface ConversationWrapperProps {
 const ConversationWrapper: React.FC<ConversationWrapperProps> = ({
   session,
   setUserImage,
-  userImage,
+  userImage
 }) => {
   const router = useRouter();
   const { id: userId } = session.user;
@@ -42,7 +42,7 @@ const ConversationWrapper: React.FC<ConversationWrapperProps> = ({
     data: converationsData,
     error: conversationsError,
     loading: conversationLoading,
-    subscribeToMore,
+    subscribeToMore
   } = useQuery<ConversationsData, ConversationPopulated>(
     conversationOperation.Queries.conversations
   );
@@ -72,8 +72,8 @@ const ConversationWrapper: React.FC<ConversationWrapperProps> = ({
           conversationUpdated: {
             conversation: updatedConversation,
             addedUserIds,
-            removedUserIds,
-          },
+            removedUserIds
+          }
         } = subscriptionData;
 
         const { id: updatedConversationId, latestMessage } =
@@ -87,7 +87,7 @@ const ConversationWrapper: React.FC<ConversationWrapperProps> = ({
 
           if (isBeingRemoved) {
             const conversationsData = client.readQuery<ConversationsData>({
-              query: ConversationOperations.Queries.conversations,
+              query: ConversationOperations.Queries.conversations
             });
 
             if (!conversationsData) return;
@@ -97,15 +97,15 @@ const ConversationWrapper: React.FC<ConversationWrapperProps> = ({
               data: {
                 conversations: conversationsData.conversations.filter(
                   (c) => c.id !== updatedConversationId
-                ),
-              },
+                )
+              }
             });
 
             if (conversationId === updatedConversationId) {
               router.replace(
-                typeof process.env.NEXT_PUBLIC_BASE_URL === "string"
+                typeof process.env.NEXT_PUBLIC_BASE_URL === 'string'
                   ? process.env.NEXT_PUBLIC_BASE_URL
-                  : ""
+                  : ''
               );
             }
 
@@ -124,7 +124,7 @@ const ConversationWrapper: React.FC<ConversationWrapperProps> = ({
 
           if (isBeingAdded) {
             const conversationsData = client.readQuery<ConversationsData>({
-              query: ConversationOperations.Queries.conversations,
+              query: ConversationOperations.Queries.conversations
             });
 
             if (!conversationsData) return;
@@ -134,9 +134,9 @@ const ConversationWrapper: React.FC<ConversationWrapperProps> = ({
               data: {
                 conversations: [
                   ...(conversationsData.conversations || []),
-                  updatedConversation,
-                ],
-              },
+                  updatedConversation
+                ]
+              }
             });
           }
         }
@@ -154,7 +154,7 @@ const ConversationWrapper: React.FC<ConversationWrapperProps> = ({
 
         const existing = client.readQuery<MessagesData>({
           query: MessageOperations.Query.messages,
-          variables: { conversationId: updatedConversationId },
+          variables: { conversationId: updatedConversationId }
         });
 
         if (!existing) return;
@@ -178,11 +178,11 @@ const ConversationWrapper: React.FC<ConversationWrapperProps> = ({
             variables: { conversationId: updatedConversationId },
             data: {
               ...existing,
-              messages: [latestMessage, ...existing.messages],
-            },
+              messages: [latestMessage, ...existing.messages]
+            }
           });
         }
-      },
+      }
     }
   );
 
@@ -195,14 +195,14 @@ const ConversationWrapper: React.FC<ConversationWrapperProps> = ({
         if (!subscriptionData) return;
 
         const existing = client.readQuery<ConversationsData>({
-          query: ConversationOperations.Queries.conversations,
+          query: ConversationOperations.Queries.conversations
         });
 
         if (!existing) return;
 
         const { conversations } = existing;
         const {
-          conversationDeleted: { id: deletedConversationId },
+          conversationDeleted: { id: deletedConversationId }
         } = subscriptionData;
 
         client.writeQuery<ConversationsData>({
@@ -210,10 +210,10 @@ const ConversationWrapper: React.FC<ConversationWrapperProps> = ({
           data: {
             conversations: conversations.filter(
               (conversation) => conversation.id !== deletedConversationId
-            ),
-          },
+            )
+          }
         });
-      },
+      }
     }
   );
 
@@ -237,10 +237,10 @@ const ConversationWrapper: React.FC<ConversationWrapperProps> = ({
       await markConversationAsRead({
         variables: {
           userId,
-          conversationId,
+          conversationId
         },
         optimisticResponse: {
-          markConversationAsRead: true,
+          markConversationAsRead: true
         },
         update: (cache) => {
           /**
@@ -261,7 +261,7 @@ const ConversationWrapper: React.FC<ConversationWrapperProps> = ({
                   hasSeenLatestMessage
                 }
               }
-            `,
+            `
           });
 
           if (!participantsFragment) return;
@@ -290,7 +290,7 @@ const ConversationWrapper: React.FC<ConversationWrapperProps> = ({
            */
           participants[userParticipantIdx] = {
             ...userParticipant,
-            hasSeenLatestMessage: true,
+            hasSeenLatestMessage: true
           };
 
           /**
@@ -304,14 +304,14 @@ const ConversationWrapper: React.FC<ConversationWrapperProps> = ({
               }
             `,
             data: {
-              participants,
-            },
+              participants
+            }
           });
-        },
+        }
       });
     } catch (error) {
-      console.log("onViewConversation error", error);
-      toast.error("On View Conversation Error");
+      console.log('onViewConversation error', error);
+      toast.error('On View Conversation Error');
     }
   };
 
@@ -321,7 +321,7 @@ const ConversationWrapper: React.FC<ConversationWrapperProps> = ({
       updateQuery: (
         prev,
         {
-          subscriptionData,
+          subscriptionData
         }: {
           subscriptionData: {
             data: { conversationCreated: ConversationPopulated };
@@ -331,9 +331,9 @@ const ConversationWrapper: React.FC<ConversationWrapperProps> = ({
         if (!subscriptionData.data) return prev;
         const newConversation = subscriptionData.data.conversationCreated;
         return Object.assign({}, prev, {
-          conversations: [newConversation, ...prev?.conversations],
+          conversations: [newConversation, ...prev?.conversations]
         });
-      },
+      }
     });
   };
 
@@ -346,13 +346,13 @@ const ConversationWrapper: React.FC<ConversationWrapperProps> = ({
 
   return (
     <Box
-      width={{ base: "100%", md: "600px" }}
+      width={{ base: '100%', md: '600px' }}
       bg="whiteAlpha.50"
       py={6}
       px={3}
       pb="30px"
       overflowY="scroll"
-      display={{ base: conversationId ? "none" : "block", md: "block" }}
+      display={{ base: conversationId ? 'none' : 'block', md: 'block' }}
     >
       {conversationLoading ? (
         <Stack m={2}>

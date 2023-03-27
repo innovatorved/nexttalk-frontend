@@ -1,5 +1,5 @@
-import { gql } from "@apollo/client";
-import { MessageFields } from "./message";
+import { gql } from '@apollo/client';
+import { MessageFields } from './message';
 
 const ConversationFields = `
   id
@@ -25,7 +25,7 @@ const ConversationOperation = {
           ${ConversationFields}
         }
       }
-    `,
+    `
   },
   Mutations: {
     createConversation: gql`
@@ -58,7 +58,7 @@ const ConversationOperation = {
           participantIds: $participantIds
         )
       }
-    `,
+    `
   },
   Subscription: {
     conversationCreated: gql`
@@ -85,8 +85,8 @@ const ConversationOperation = {
           id
         }
       }
-    `,
-  },
+    `
+  }
 };
 
 export default ConversationOperation;

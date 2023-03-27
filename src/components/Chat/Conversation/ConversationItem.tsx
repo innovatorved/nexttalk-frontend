@@ -7,23 +7,23 @@ import {
   MenuItem,
   MenuList,
   Stack,
-  Text,
-} from "@chakra-ui/react";
-import { formatRelative } from "date-fns";
-import enUS from "date-fns/locale/en-US";
-import React, { useState } from "react";
-import { GoPrimitiveDot } from "react-icons/go";
-import { MdDeleteOutline } from "react-icons/md";
-import { BiLogOut } from "react-icons/bi";
-import { AiOutlineEdit } from "react-icons/ai";
-import { ConversationPopulated } from "@/util/types";
-import { formatLatestMessage, formatUsernames_forFeed } from "@/util/functions";
+  Text
+} from '@chakra-ui/react';
+import { formatRelative } from 'date-fns';
+import enUS from 'date-fns/locale/en-US';
+import React, { useState } from 'react';
+import { GoPrimitiveDot } from 'react-icons/go';
+import { MdDeleteOutline } from 'react-icons/md';
+import { BiLogOut } from 'react-icons/bi';
+import { AiOutlineEdit } from 'react-icons/ai';
+import { ConversationPopulated } from '@/util/types';
+import { formatLatestMessage, formatUsernames_forFeed } from '@/util/functions';
 
 const formatRelativeLocale = {
-  lastWeek: "eeee",
+  lastWeek: 'eeee',
   yesterday: "'Yesterday",
-  today: "p",
-  other: "MM/dd/yy",
+  today: 'p',
+  other: 'MM/dd/yy'
 };
 
 interface ConversationItemProps {
@@ -49,14 +49,14 @@ const ConversationItem: React.FC<ConversationItemProps> = ({
   hasSeenLatestMessage,
   onEditConversation,
   onDeleteConversation,
-  onLeaveConversation,
+  onLeaveConversation
 }) => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const handleClick = (event: React.MouseEvent) => {
-    if (event.type === "click") {
+    if (event.type === 'click') {
       onClick();
-    } else if (event.type === "contextmenu") {
+    } else if (event.type === 'contextmenu') {
       event.preventDefault();
       setMenuOpen(true);
     }
@@ -77,9 +77,9 @@ const ConversationItem: React.FC<ConversationItemProps> = ({
       cursor="pointer"
       borderRadius={4}
       bg={
-        conversation.id === selectedConversationId ? "whiteAlpha.200" : "none"
+        conversation.id === selectedConversationId ? 'whiteAlpha.200' : 'none'
       }
-      _hover={{ bg: "whiteAlpha.500" }}
+      _hover={{ bg: 'whiteAlpha.500' }}
       onClick={handleClick}
       onContextMenu={handleClick}
       position="relative"
@@ -89,7 +89,7 @@ const ConversationItem: React.FC<ConversationItemProps> = ({
           <MenuList bg="#35343b">
             <MenuItem
               bg="#35343b"
-              _hover={{ bg: "#2d2d2d" }}
+              _hover={{ bg: '#2d2d2d' }}
               icon={<AiOutlineEdit fontSize={20} />}
               onClick={(event) => {
                 event.stopPropagation();
@@ -101,7 +101,7 @@ const ConversationItem: React.FC<ConversationItemProps> = ({
             {conversation.participants.length > 2 ? (
               <MenuItem
                 bg="#35343b"
-                _hover={{ bg: "#2d2d2d" }}
+                _hover={{ bg: '#2d2d2d' }}
                 icon={<BiLogOut fontSize={20} />}
                 onClick={(event) => {
                   event.stopPropagation();
@@ -113,7 +113,7 @@ const ConversationItem: React.FC<ConversationItemProps> = ({
             ) : (
               <MenuItem
                 bg="#35343b"
-                _hover={{ bg: "#2d2d2d" }}
+                _hover={{ bg: '#2d2d2d' }}
                 icon={<MdDeleteOutline fontSize={20} />}
                 onClick={(event) => {
                   event.stopPropagation();
@@ -175,10 +175,8 @@ const ConversationItem: React.FC<ConversationItemProps> = ({
             locale: {
               ...enUS,
               formatRelative: (token) =>
-                formatRelativeLocale[
-                  token as keyof typeof formatRelativeLocale
-                ],
-            },
+                formatRelativeLocale[token as keyof typeof formatRelativeLocale]
+            }
           })}
         </Text>
       </Flex>

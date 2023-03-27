@@ -1,15 +1,15 @@
-import type { NextPage, NextPageContext } from "next";
+import type { NextPage, NextPageContext } from 'next';
 
-import { useEffect, useMemo } from "react";
-import Chat from "../components/Chat/Chat";
-import Auth from "../components/Auth/Auth";
+import { useEffect, useMemo } from 'react';
+import Chat from '../components/Chat/Chat';
+import Auth from '../components/Auth/Auth';
 
-import { useSession, getSession } from "next-auth/react";
+import { useSession, getSession } from 'next-auth/react';
 
 const Home: NextPage = () => {
   const { data: session, status } = useSession();
   const reloadSession = () => {
-    const event = new Event("visibilitychange");
+    const event = new Event('visibilitychange');
     document.dispatchEvent(event);
   };
 
@@ -31,7 +31,7 @@ export async function getServerSideProps(context: NextPageContext) {
 
   return {
     props: {
-      session,
-    },
+      session
+    }
   };
 }

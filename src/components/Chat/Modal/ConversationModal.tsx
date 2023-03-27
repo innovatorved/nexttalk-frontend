@@ -2,9 +2,9 @@ import {
   CreateConversationData,
   CreateConversationProps,
   SearchUsersData,
-  SearchUsersInput,
-} from "@/util/types";
-import { useLazyQuery, useMutation } from "@apollo/client";
+  SearchUsersInput
+} from '@/util/types';
+import { useLazyQuery, useMutation } from '@apollo/client';
 import {
   Modal,
   ModalOverlay,
@@ -15,19 +15,19 @@ import {
   Text,
   Stack,
   Button,
-  Input,
-} from "@chakra-ui/react";
-import { useEffect, useState } from "react";
-import { toast } from "react-hot-toast";
+  Input
+} from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
+import { toast } from 'react-hot-toast';
 
-import UserOperation from "../../../graphql/operations/user";
-import ConversationOperation from "../../../graphql/operations/converation";
-import UserSearchList from "./UserSearchList";
+import UserOperation from '../../../graphql/operations/user';
+import ConversationOperation from '../../../graphql/operations/converation';
+import UserSearchList from './UserSearchList';
 
-import { SearchedUser } from "../../../util/types";
-import Participants from "./Participants";
-import { Session } from "next-auth";
-import { useRouter } from "next/router";
+import { SearchedUser } from '../../../util/types';
+import Participants from './Participants';
+import { Session } from 'next-auth';
+import { useRouter } from 'next/router';
 
 interface ConversationModalProps {
   isOpen: boolean;
@@ -38,14 +38,14 @@ interface ConversationModalProps {
 const ConversationModal: React.FC<ConversationModalProps> = ({
   isOpen,
   onClose,
-  session,
+  session
 }) => {
   const router = useRouter();
 
   const {
-    user: { id: userId },
+    user: { id: userId }
   } = session;
-  const [username, setUsername] = useState("");
+  const [username, setUsername] = useState('');
   const [participants, setParticipants] = useState<SearchedUser[]>([]);
 
   const [createConversation, { loading: createConversationLoading }] =
@@ -66,16 +66,16 @@ const ConversationModal: React.FC<ConversationModalProps> = ({
     try {
       const { data } = await createConversation({
         variables: {
-          participantsIds,
-        },
+          participantsIds
+        }
       });
 
       if (!data?.createConversation) {
-        throw new Error("Failed to Create Conversation");
+        throw new Error('Failed to Create Conversation');
       }
 
       const {
-        createConversation: { conversationId },
+        createConversation: { conversationId }
       } = data;
 
       /**
@@ -90,11 +90,11 @@ const ConversationModal: React.FC<ConversationModalProps> = ({
        */
 
       setParticipants([]);
-      setUsername("");
+      setUsername('');
       onClose();
     } catch (error: any) {
-      console.log("Error at Create Conversation", error?.message);
-      toast.error("Error at Create Conversation", error?.message);
+      console.log('Error at Create Conversation', error?.message);
+      toast.error('Error at Create Conversation', error?.message);
     }
   };
 
@@ -115,7 +115,7 @@ const ConversationModal: React.FC<ConversationModalProps> = ({
     //  regex to check username is empty
     const regex = /^\s*$/;
     if (regex.test(username)) {
-      toast.error("Username is empty");
+      toast.error('Username is empty');
       return;
     }
 
@@ -159,7 +159,7 @@ const ConversationModal: React.FC<ConversationModalProps> = ({
                   mt={4}
                   bg="brand.100"
                   width="100%"
-                  _hover={{ bg: "brand.100" }}
+                  _hover={{ bg: 'brand.100' }}
                   onClick={handleCreateConversation}
                   isLoading={createConversationLoading}
                 >

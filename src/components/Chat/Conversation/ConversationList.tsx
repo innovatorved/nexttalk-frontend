@@ -1,23 +1,23 @@
-import { findRecipientImages } from "@/util/functions";
+import { findRecipientImages } from '@/util/functions';
 import {
   ConversationPopulated,
   ParticipantPopulated,
   DeleteConversationResponse,
   DeleteConversationVariables,
   UpdateParticipantsResponse,
-  UpdateParticipantsVariables,
-} from "@/util/types";
-import { useMutation } from "@apollo/client";
-import { Box, Button, Text } from "@chakra-ui/react";
-import { Session } from "next-auth";
-import { useRouter } from "next/router";
-import { useState } from "react";
-import ConversationModal from "../Modal/ConversationModal";
+  UpdateParticipantsVariables
+} from '@/util/types';
+import { useMutation } from '@apollo/client';
+import { Box, Button, Text } from '@chakra-ui/react';
+import { Session } from 'next-auth';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
+import ConversationModal from '../Modal/ConversationModal';
 
-import ConversationOperation from "@/graphql/operations/converation";
+import ConversationOperation from '@/graphql/operations/converation';
 
-import ConversationItem from "./ConversationItem";
-import { toast } from "react-hot-toast";
+import ConversationItem from './ConversationItem';
+import { toast } from 'react-hot-toast';
 
 interface ConversationListProps {
   session: Session;
@@ -33,14 +33,14 @@ const ConversationList: React.FC<ConversationListProps> = ({
   session,
   conversations,
   userImage,
-  onViewConversation,
+  onViewConversation
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const onOpen = () => setIsOpen(true);
   const onClose = () => setIsOpen(false);
 
   const {
-    user: { id: userId },
+    user: { id: userId }
   } = session;
 
   const router = useRouter();
@@ -60,21 +60,21 @@ const ConversationList: React.FC<ConversationListProps> = ({
       await toast.promise(
         deleteConversation({
           variables: {
-            conversationId,
+            conversationId
           },
           update: () => {
             // If Susccessfully Deleted then redirect to home page
-            router.push("/");
-          },
+            router.push('/');
+          }
         }),
         {
-          loading: "Deleting conversation",
-          success: "Conversation deleted successfully.",
-          error: "Failed to delete conversation. Please try again later.",
+          loading: 'Deleting conversation',
+          success: 'Conversation deleted successfully.',
+          error: 'Failed to delete conversation. Please try again later.'
         }
       );
     } catch (error) {
-      console.error("Failed to delete conversation: ", error);
+      console.error('Failed to delete conversation: ', error);
     }
   };
 
@@ -87,27 +87,27 @@ const ConversationList: React.FC<ConversationListProps> = ({
       const { data, errors } = await updateParticipants({
         variables: {
           conversationId: conversation.id,
-          participantIds,
-        },
+          participantIds
+        }
       });
 
       if (errors) {
-        throw new Error("Failed to update participants");
+        throw new Error('Failed to update participants');
       }
 
       if (!data?.updateParticipants) {
-        throw new Error("Failed to update participants");
+        throw new Error('Failed to update participants');
       }
 
-      toast.success("Left conversation successfully");
+      toast.success('Left conversation successfully');
     } catch (error: any) {
-      console.log("onUpdateConversation error", error);
+      console.log('onUpdateConversation error', error);
       toast.error(error?.message);
     }
   };
 
   const onEditConversation = (conversation: ConversationPopulated) => {
-    toast.error("Not implemented yet");
+    toast.error('Not implemented yet');
   };
 
   const getUserParticipantObject = (conversation: ConversationPopulated) => {

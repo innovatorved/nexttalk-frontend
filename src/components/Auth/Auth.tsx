@@ -5,25 +5,25 @@ import {
   Image,
   Input,
   Stack,
-  Text,
-} from "@chakra-ui/react";
-import { signIn } from "next-auth/react";
+  Text
+} from '@chakra-ui/react';
+import { signIn } from 'next-auth/react';
 
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
-import UserOperations from "../../graphql/operations/user";
-import { useMutation } from "@apollo/client";
+import UserOperations from '../../graphql/operations/user';
+import { useMutation } from '@apollo/client';
 
-import { toast } from "react-hot-toast";
+import { toast } from 'react-hot-toast';
 
 import {
   IAuthProps,
   CreateUsernameData,
-  CreateUsernameVariables,
-} from "../../util/types";
+  CreateUsernameVariables
+} from '../../util/types';
 
 const Auth: React.FC<IAuthProps> = ({ session, reloadSession }) => {
-  const [username, setUsername] = useState<string>("");
+  const [username, setUsername] = useState<string>('');
 
   const [createUsername, { loading, error }] = useMutation<
     CreateUsernameData,
@@ -37,18 +37,18 @@ const Auth: React.FC<IAuthProps> = ({ session, reloadSession }) => {
       // GraphQl mutation for username
       const { data } = await createUsername({ variables: { username } });
       if (!data?.createUsername) {
-        throw new Error("Error Occurred in Saving Username");
+        throw new Error('Error Occurred in Saving Username');
       }
       if (data.createUsername.error) {
         const {
-          createUsername: { error },
+          createUsername: { error }
         } = data;
         throw new Error(error);
       }
 
       // reload session to add new Username
       reloadSession();
-      toast.success("Username Added!");
+      toast.success('Username Added!');
     } catch (error: any) {
       toast.error(error?.message);
       console.log(error?.message);
@@ -82,7 +82,7 @@ const Auth: React.FC<IAuthProps> = ({ session, reloadSession }) => {
           <Text fontSize="3xl">NextTalk</Text>
           <Button
             onClick={() => {
-              signIn("google");
+              signIn('google');
             }}
             leftIcon={
               <Image height="20px" alt="Google Logo" src="/images/google.png" />

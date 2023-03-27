@@ -1,11 +1,12 @@
-import { Html, Head, Main, NextScript } from "next/document";
+import { Html, Head, Main, NextScript } from 'next/document';
+import { Partytown } from '@builder.io/partytown/react';
 
 export default function Document() {
   const meta = {
-    title: "NextTalk",
-    description: "Your Next Chat App",
-    url: "https://nexttalk.nextinnovate.tech/",
-    twitter: "@innovatorved",
+    title: 'NextTalk',
+    description: 'Your Next Chat App',
+    url: 'https://nexttalk.nextinnovate.tech/',
+    twitter: '@innovatorved'
   };
   return (
     <Html lang="en">
@@ -67,6 +68,7 @@ export default function Document() {
           media="(prefers-color-scheme: dark)"
         />
         <link rel="manifest" href="/manifest.json"></link>
+        <Partytown debug={true} forward={['dataLayer.push']} />
       </Head>
       <body>
         <Main />

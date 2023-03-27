@@ -1,8 +1,8 @@
 import {
   ConversationsData,
   ParticipantPopulated,
-  ConversationPopulated,
-} from "@/util/types";
+  ConversationPopulated
+} from '@/util/types';
 
 export const checkIsUserIsFromMobile = (): boolean => {
   const isMobile = window.innerWidth <= 768;
@@ -10,7 +10,7 @@ export const checkIsUserIsFromMobile = (): boolean => {
 };
 
 export const formatLatestMessage = (message: string): string => {
-  return message.length > 30 ? message.slice(0, 28) + "..." : message;
+  return message.length > 30 ? message.slice(0, 28) + '...' : message;
 };
 
 export const formatUsernames_forFeed = (
@@ -21,10 +21,10 @@ export const formatUsernames_forFeed = (
     .filter((participant) => participant.user.id != myUserId)
     .map((participant) => participant.user.username);
 
-  let formattedUsernames = usernames.join(", ").slice(0, 20);
+  let formattedUsernames = usernames.join(', ').slice(0, 20);
 
-  if (usernames.join(", ").length > 20) {
-    formattedUsernames += "...";
+  if (usernames.join(', ').length > 20) {
+    formattedUsernames += '...';
   }
 
   return formattedUsernames;
@@ -37,12 +37,12 @@ export const formatUsernames_forConversation = (
   const usernames = participants
     .filter((participant) => participant.user.id != myUserId)
     .map((participant) => participant.user.username);
-  let formattedUsernames = usernames.join(", ");
+  let formattedUsernames = usernames.join(', ');
 
   if (checkIsUserIsFromMobile()) {
     let SliceUsernames = formattedUsernames.slice(0, 20);
     if (formattedUsernames.length > 20) {
-      SliceUsernames += "..";
+      SliceUsernames += '..';
     }
     return SliceUsernames;
   }
@@ -89,11 +89,11 @@ export const findRecipientImage = (
   if (conversation.participants.length !== 2) return null;
   const [
     {
-      user: { id: id1 },
+      user: { id: id1 }
     },
     {
-      user: { id: id2 },
-    },
+      user: { id: id2 }
+    }
   ] = conversation.participants;
   const recipientId = id1 === userId ? id2 : id1;
   return recipientId in userImage ? userImage[recipientId] : null;

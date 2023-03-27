@@ -1,8 +1,8 @@
-import { Avatar, Box, Flex, Stack, Text } from "@chakra-ui/react";
-import { formatRelative } from "date-fns";
-import enUS from "date-fns/locale/en-US";
-import React from "react";
-import { MessagePopulated } from "@/util/types";
+import { Avatar, Box, Flex, Stack, Text } from '@chakra-ui/react';
+import { formatRelative } from 'date-fns';
+import enUS from 'date-fns/locale/en-US';
+import React from 'react';
+import { MessagePopulated } from '@/util/types';
 
 interface MessageItemProps {
   message: MessagePopulated;
@@ -13,22 +13,22 @@ interface MessageItemProps {
 const formatRelativeLocale = {
   lastWeek: "eeee 'at' p",
   yesterday: "'Yesterday at' p",
-  today: "p",
-  other: "MM/dd/yy",
+  today: 'p',
+  other: 'MM/dd/yy'
 };
 
 const MessageItem: React.FC<MessageItemProps> = ({
   message,
   sentByMe,
-  userImage,
+  userImage
 }) => {
   return (
     <Stack
       direction="row"
       p={4}
       spacing={4}
-      _hover={{ bg: "whiteAlpha.200" }}
-      justify={sentByMe ? "flex-end" : "flex-start"}
+      _hover={{ bg: 'whiteAlpha.200' }}
+      justify={sentByMe ? 'flex-end' : 'flex-start'}
       wordBreak="break-word"
     >
       {!sentByMe && (
@@ -46,10 +46,10 @@ const MessageItem: React.FC<MessageItemProps> = ({
         <Stack
           direction="row"
           align="center"
-          justify={sentByMe ? "flex-end" : "flex-start"}
+          justify={sentByMe ? 'flex-end' : 'flex-start'}
         >
           {!sentByMe && (
-            <Text fontWeight={100} textAlign={sentByMe ? "right" : "left"}>
+            <Text fontWeight={100} textAlign={sentByMe ? 'right' : 'left'}>
               {message.sender.username}
             </Text>
           )}
@@ -60,14 +60,14 @@ const MessageItem: React.FC<MessageItemProps> = ({
                 formatRelative: (token) =>
                   formatRelativeLocale[
                     token as keyof typeof formatRelativeLocale
-                  ],
-              },
+                  ]
+              }
             })}
           </Text>
         </Stack>
-        <Flex direction="row" justify={sentByMe ? "flex-end" : "flex-start"}>
+        <Flex direction="row" justify={sentByMe ? 'flex-end' : 'flex-start'}>
           <Box
-            bg={sentByMe ? "brand.100" : "whiteAlpha.300"}
+            bg={sentByMe ? 'brand.100' : 'whiteAlpha.300'}
             px={2}
             py={1}
             borderRadius={9}

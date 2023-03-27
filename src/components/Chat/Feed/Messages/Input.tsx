@@ -1,14 +1,14 @@
-import { useMutation } from "@apollo/client";
-import { Box, Input } from "@chakra-ui/react";
-import { Session } from "next-auth";
-import { useState } from "react";
-import { toast } from "react-hot-toast";
+import { useMutation } from '@apollo/client';
+import { Box, Input } from '@chakra-ui/react';
+import { Session } from 'next-auth';
+import { useState } from 'react';
+import { toast } from 'react-hot-toast';
 
-import { ObjectId } from "bson";
+import { ObjectId } from 'bson';
 
-import MessageOperations from "@/graphql/operations/message";
+import MessageOperations from '@/graphql/operations/message';
 
-import { MessagesData, SendMessageArguments } from "@/util/types";
+import { MessagesData, SendMessageArguments } from '@/util/types';
 
 interface MessageInputProps {
   session: Session;
@@ -17,9 +17,9 @@ interface MessageInputProps {
 
 const MessageInput: React.FC<MessageInputProps> = ({
   session,
-  conversationId,
+  conversationId
 }) => {
-  const [message, setMessage] = useState<string>("");
+  const [message, setMessage] = useState<string>('');
   const [sendMessage] = useMutation<
     { sendMessage: boolean },
     SendMessageArguments
@@ -30,7 +30,7 @@ const MessageInput: React.FC<MessageInputProps> = ({
 
     const regex_check: RegExp = /^\s*$/;
     if (regex_check.test(message)) {
-      toast.error("Write Something...");
+      toast.error('Write Something...');
       return;
     }
     try {
@@ -41,21 +41,21 @@ const MessageInput: React.FC<MessageInputProps> = ({
         id: messageId,
         senderId,
         conversationId,
-        body: message,
+        body: message
       };
-      setMessage("");
+      setMessage('');
 
       const { data, errors } = await sendMessage({
         variables: {
-          ...newMessage,
+          ...newMessage
         },
         optimisticResponse: {
-          sendMessage: true,
+          sendMessage: true
         },
         update: (cache) => {
           const existing = cache.readQuery<MessagesData>({
             query: MessageOperations.Query.messages,
-            variables: { conversationId },
+            variables: { conversationId }
           }) as MessagesData;
 
           cache.writeQuery<MessagesData, { conversationId: string }>({
@@ -71,23 +71,23 @@ const MessageInput: React.FC<MessageInputProps> = ({
                   conversationId,
                   sender: {
                     id: session.user.id,
-                    username: session.user.username,
+                    username: session.user.username
                   },
                   createdAt: new Date(Date.now()),
-                  updatedAt: new Date(Date.now()),
+                  updatedAt: new Date(Date.now())
                 },
-                ...existing.messages,
-              ],
-            },
+                ...existing.messages
+              ]
+            }
           });
-        },
+        }
       });
 
       if (!data?.sendMessage || errors) {
-        throw new Error("Failed to Send Messages");
+        throw new Error('Failed to Send Messages');
       }
     } catch (error: any) {
-      console.log("On Send Message", error?.message);
+      console.log('On Send Message', error?.message);
       toast.error(error?.message);
     }
   };
@@ -102,9 +102,9 @@ const MessageInput: React.FC<MessageInputProps> = ({
           size="md"
           resize="none"
           _focus={{
-            border: "1px solid",
-            borderColor: "whiteAlpha.300",
-            boxShadow: "none",
+            border: '1px solid',
+            borderColor: 'whiteAlpha.300',
+            boxShadow: 'none'
           }}
         />
       </form>

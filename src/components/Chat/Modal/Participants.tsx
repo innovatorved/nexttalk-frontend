@@ -1,5 +1,5 @@
-import { CloseButton, Flex, Stack, Text } from "@chakra-ui/react";
-import { SearchedUser } from "../../../util/types";
+import { CloseButton, Flex, Stack, Text } from '@chakra-ui/react';
+import { SearchedUser } from '../../../util/types';
 
 interface ParticipantsProps {
   participants: Array<SearchedUser>;
@@ -8,7 +8,7 @@ interface ParticipantsProps {
 
 const Participants: React.FC<ParticipantsProps> = ({
   participants,
-  removeParticipants,
+  removeParticipants
 }) => {
   return (
     <Flex mt={6} gap="10px" flexWrap="wrap">

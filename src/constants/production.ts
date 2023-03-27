@@ -7,7 +7,7 @@ export const NEXTAUTH_SECRET = process.env.NEXTAUTH_SECRET as string;
 
 export const NEXT_PUBLIC_BASE_URL = process.env.NEXT_PUBLIC_BASE_URL as string;
 
-export const BACKEND_ENDPOINT = "https://backend.nextinnovate.tech/graphql";
+export const BACKEND_ENDPOINT = 'https://backend.nextinnovate.tech/graphql';
 export const WS_ENDPOINT =
-  "wss://backend.nextinnovate.tech/graphql/subscriptions";
-export const DOMAIN = "backend.nextinnovate.tech";
+  'wss://backend.nextinnovate.tech/graphql/subscriptions';
+export const DOMAIN = 'backend.nextinnovate.tech';

@@ -1,5 +1,5 @@
-import { Session } from "next-auth";
-import { Prisma } from "@prisma/client";
+import { Session } from 'next-auth';
+import { Prisma } from '@prisma/client';
 
 /**
  * User types
@@ -44,26 +44,26 @@ export const participantPopulated =
       select: {
         id: true,
         username: true,
-        image: true,
-      },
-    },
+        image: true
+      }
+    }
   });
 
 export const conversationPopulated =
   Prisma.validator<Prisma.ConversationInclude>()({
     participants: {
-      include: participantPopulated,
+      include: participantPopulated
     },
     latestMessage: {
       include: {
         sender: {
           select: {
             id: true,
-            username: true,
-          },
-        },
-      },
-    },
+            username: true
+          }
+        }
+      }
+    }
   });
 
 export type ConversationPopulated = Prisma.ConversationGetPayload<{
@@ -116,7 +116,7 @@ export interface ConversationDeletedData {
 
 export interface ConversationUpdatedData {
   conversationUpdated: {
-    conversation: Omit<ConversationPopulated, "latestMessage"> & {
+    conversation: Omit<ConversationPopulated, 'latestMessage'> & {
       latestMessage: MessagePopulated;
     };
     addedUserIds: Array<string> | null;
@@ -149,9 +149,9 @@ export const messagePopulated = Prisma.validator<Prisma.MessageInclude>()({
   sender: {
     select: {
       id: true,
-      username: true,
-    },
-  },
+      username: true
+    }
+  }
 });
 
 export type MessagePopulated = Prisma.MessageGetPayload<{
