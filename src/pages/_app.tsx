@@ -1,4 +1,6 @@
 import type { AppProps } from "next/app";
+import Head from "next/head";
+
 import { SessionProvider } from "next-auth/react";
 
 import { ChakraProvider } from "@chakra-ui/react";
@@ -14,13 +16,18 @@ export default function App({
   pageProps: { session, ...pageProps },
 }: AppProps) {
   return (
-    <ApolloProvider client={client}>
-      <SessionProvider session={session}>
-        <ChakraProvider theme={theme}>
-          <Component {...pageProps} />
-          <Toaster position="bottom-right" reverseOrder={false} />
-        </ChakraProvider>
-      </SessionProvider>
-    </ApolloProvider>
+    <>
+      <Head>
+        <title>NextTalk - Your Next Chat App</title>
+      </Head>
+      <ApolloProvider client={client}>
+        <SessionProvider session={session}>
+          <ChakraProvider theme={theme}>
+            <Component {...pageProps} />
+            <Toaster position="bottom-right" reverseOrder={false} />
+          </ChakraProvider>
+        </SessionProvider>
+      </ApolloProvider>
+    </>
   );
 }

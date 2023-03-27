@@ -10,7 +10,6 @@ export default function Document() {
   return (
     <Html lang="en">
       <Head>
-        <title>{`${meta.title} - ${meta.description}`}</title>
         <link rel="icon" href="/favicon-dark.ico" />
         <meta name="robots" content="follow, index" />
 
