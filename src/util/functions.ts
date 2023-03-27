@@ -46,6 +46,13 @@ export const formatUsernames_forConversation = (
     }
     return SliceUsernames;
   }
+  else{
+    let SliceUsernames = formattedUsernames.slice(0, 30);
+    if (formattedUsernames.length > 30) {
+      SliceUsernames += '..';
+    }
+    return SliceUsernames;
+  }
 
   return formattedUsernames;
 };
