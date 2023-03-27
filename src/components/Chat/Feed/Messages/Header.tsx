@@ -73,7 +73,7 @@ const MessageHeader: React.FC<MessageHeaderProps> = ({
       {conversation && (
         <Flex direction="row" align="center" gap="10px">
           <Text color="whiteAlpha.600">To: </Text>
-          <Box minW="100px">
+          <Box minW="2px">
             <AvatarGroup size={{ base: "sm", md: "md" }} max={3} border="">
               {recipitentImages.map((image, id) => {
                 if (id > 2) return <></>;

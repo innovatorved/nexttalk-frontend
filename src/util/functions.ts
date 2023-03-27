@@ -40,8 +40,8 @@ export const formatUsernames_forConversation = (
   let formattedUsernames = usernames.join(", ");
 
   if (checkIsUserIsFromMobile()) {
-    let SliceUsernames = formattedUsernames.slice(0, 15);
-    if (formattedUsernames.length > 15) {
+    let SliceUsernames = formattedUsernames.slice(0, 20);
+    if (formattedUsernames.length > 20) {
       SliceUsernames += "..";
     }
     return SliceUsernames;

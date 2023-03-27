@@ -4,8 +4,13 @@ export default function Document() {
   return (
     <Html lang="en">
       <Head>
-        <title>NextTalk - The Next Generation Chat App</title>
+        <title>NextTalk - Your Next Chat App</title>
         <link rel="icon" href="/favicon-dark.ico" />
+        <meta property="og:title" content="NextTalk - Your Next Chat App" />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="/images/og-image.png" />
+        <meta property="og:url" content="https://nexttalk.nextinnovate.tech/" />
+
         <link
           rel="icon"
           href="/favicon.ico"
