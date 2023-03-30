@@ -4,6 +4,8 @@ import enUS from 'date-fns/locale/en-US';
 import React from 'react';
 import { MessagePopulated } from '@/util/types';
 
+import MessageBody from "@/components/Chat/Feed/Messages/MessageBody";
+
 interface MessageItemProps {
   message: MessagePopulated;
   sentByMe: boolean;
@@ -73,7 +75,7 @@ const MessageItem: React.FC<MessageItemProps> = ({
             borderRadius={9}
             maxWidth="65%"
           >
-            <Text>{message.body}</Text>
+            <MessageBody text={message.body} />
           </Box>
         </Flex>
       </Stack>

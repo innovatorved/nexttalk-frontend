@@ -17,7 +17,7 @@ import {
   formatUsernames_forConversation
 } from '@/util/functions';
 import { ConversationPopulated, ConversationsData } from '@/util/types';
-import SkeletonLoader from '@/components/Loader/SkeletonLoader';
+import SkeletonLoader from '@/components/Helper/SkeletonLoader';
 import { NEXT_PUBLIC_BASE_URL } from '@/constants';
 
 export interface MessageHeaderProps {

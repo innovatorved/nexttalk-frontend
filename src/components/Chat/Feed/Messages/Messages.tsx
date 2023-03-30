@@ -9,7 +9,7 @@ import { Box, Flex, Stack } from '@chakra-ui/react';
 import MessageOperations from '@/graphql/operations/message';
 import { toast } from 'react-hot-toast';
 
-import SkeletonLoader from '@/components/Loader/SkeletonLoader';
+import SkeletonLoader from '@/components/Helper/SkeletonLoader';
 import MessageItem from './MessageItem';
 import { useEffect } from 'react';
 

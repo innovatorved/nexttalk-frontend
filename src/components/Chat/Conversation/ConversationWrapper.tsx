@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Box, Stack } from '@chakra-ui/react';
 import { Session } from 'next-auth';
 import ConversationList from './ConversationList';
-import SkeletonLoader from '@/components/Loader/SkeletonLoader';
+import SkeletonLoader from '@/components/Helper/SkeletonLoader';
 import Logout from '@/components/Auth/Logout';
 
 import { gql, useMutation, useQuery, useSubscription } from '@apollo/client';
