@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "pretify": "prettier --write .",
+    "dev-debug": "NODE_OPTIONS='--inspect-brk' next dev",
     "partytown": "partytown copylib public/~partytown"
   },
   "dependencies": {

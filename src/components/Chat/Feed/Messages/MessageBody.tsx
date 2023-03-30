@@ -14,7 +14,7 @@ const replaceLinks = (text: string): React.ReactNode[] => {
     if (linkIndex > lastEndIndex) {
       outputNodes.push(text.substring(lastEndIndex, linkIndex));
     }
-
+  
     // Add the anchor tag for this link
     outputNodes.push(
       <Link fontSize={14} href={linkUrl} title={`Visit: ${linkUrl}`} key={linkIndex} isExternal>
@@ -34,11 +34,10 @@ const replaceLinks = (text: string): React.ReactNode[] => {
   return outputNodes;
 };
 
-function Message(props: MessageProps) {
-  const { text } = props;
+const  MessageBody : React.FC<MessageProps> = ({ text })=> {
   const outputNodes = replaceLinks(text);
 
   return <Text>{outputNodes}</Text>;
 }
 
-export default Message;
+export default MessageBody;
