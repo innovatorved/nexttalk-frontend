@@ -4,7 +4,7 @@ import enUS from 'date-fns/locale/en-US';
 import React from 'react';
 import { MessagePopulated } from '@/util/types';
 
-import MessageBody from "@/components/Chat/Feed/Messages/MessageBody";
+import MessageBody from '@/components/Chat/Feed/Messages/MessageBody';
 
 interface MessageItemProps {
   message: MessagePopulated;

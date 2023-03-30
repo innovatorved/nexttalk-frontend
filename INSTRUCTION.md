@@ -1,6 +1,5 @@
-
-
 ## For Creating Production Build
+
 ```bash
 rm ./src/constants/index.ts ; mv ./src/constants/production.ts ./src/constants/index.ts; echo "Hello" && yarn run partytown && next build
 ```

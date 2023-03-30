@@ -1,4 +1,4 @@
-import { Text , Link } from "@chakra-ui/react";
+import { Text, Link } from '@chakra-ui/react';
 
 interface MessageProps {
   text: string;
@@ -14,10 +14,16 @@ const replaceLinks = (text: string): React.ReactNode[] => {
     if (linkIndex > lastEndIndex) {
       outputNodes.push(text.substring(lastEndIndex, linkIndex));
     }
-  
+
     // Add the anchor tag for this link
     outputNodes.push(
-      <Link fontSize={14} href={linkUrl} title={`Visit: ${linkUrl}`} key={linkIndex} isExternal>
+      <Link
+        fontSize={14}
+        href={linkUrl}
+        title={`Visit: ${linkUrl}`}
+        key={linkIndex}
+        isExternal
+      >
         {linkUrl}
       </Link>
     );
@@ -34,10 +40,10 @@ const replaceLinks = (text: string): React.ReactNode[] => {
   return outputNodes;
 };
 
-const  MessageBody : React.FC<MessageProps> = ({ text })=> {
+const MessageBody: React.FC<MessageProps> = ({ text }) => {
   const outputNodes = replaceLinks(text);
 
   return <Text>{outputNodes}</Text>;
-}
+};
 
 export default MessageBody;

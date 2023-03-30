@@ -45,8 +45,7 @@ export const formatUsernames_forConversation = (
       SliceUsernames += '..';
     }
     return SliceUsernames;
-  }
-  else{
+  } else {
     let SliceUsernames = formattedUsernames.slice(0, 30);
     if (formattedUsernames.length > 30) {
       SliceUsernames += '..';
