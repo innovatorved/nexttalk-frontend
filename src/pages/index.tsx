@@ -1,8 +1,8 @@
 import type { NextPage, NextPageContext } from 'next';
 
-import { useEffect, useMemo } from 'react';
-import Chat from '../components/Chat/Chat';
-import Auth from '../components/Auth/Auth';
+import Chat from '@/components/Chat/Chat';
+import Auth from '@/components/Auth/Auth';
+import StarOnGithub from '@/components/Helper/StarOnGithub';
 
 import { useSession, getSession } from 'next-auth/react';
 
@@ -15,6 +15,7 @@ const Home: NextPage = () => {
 
   return (
     <div>
+      <StarOnGithub repoURL="innovatorved/nexttalk-frontend" />
       {session?.user?.username ? (
         <Chat session={session} />
       ) : (
