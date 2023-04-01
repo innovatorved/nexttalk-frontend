@@ -26,7 +26,7 @@
     "graphql": "^16.6.0",
     "graphql-ws": "^5.11.3",
     "next": "13.1.6",
-    "next-auth": "^4.19.2",
+    "next-auth": "^4.20.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hot-toast": "^2.4.0",
@@ -49,4 +49,3 @@
     "trailingComma": "none"
   }
 }
-
