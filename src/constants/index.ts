@@ -10,3 +10,4 @@ export const NEXT_PUBLIC_BASE_URL = process.env.NEXT_PUBLIC_BASE_URL as string;
 export const BACKEND_ENDPOINT = 'http://localhost:4000/graphql';
 export const WS_ENDPOINT = 'ws://localhost:4000/graphql/subscriptions';
 export const DOMAIN = 'localhost';
+export const NODE_ENV = process.env.NODE_ENV || 'development';

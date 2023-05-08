@@ -11,3 +11,4 @@ export const BACKEND_ENDPOINT = 'https://backend.nextinnovate.tech/graphql';
 export const WS_ENDPOINT =
   'wss://backend.nextinnovate.tech/graphql/subscriptions';
 export const DOMAIN = 'backend.nextinnovate.tech';
+export const NODE_ENV = process.env.NODE_ENV || 'production';
