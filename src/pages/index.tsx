@@ -6,6 +6,8 @@ import StarOnGithub from '@/components/Helper/StarOnGithub';
 
 import { useSession, getSession } from 'next-auth/react';
 
+import { NODE_ENV } from '@/constants/index';
+
 const Home: NextPage = () => {
   const { data: session, status } = useSession();
   const reloadSession = () => {
@@ -15,7 +17,11 @@ const Home: NextPage = () => {
 
   return (
     <div>
-      <StarOnGithub repoURL="innovatorved/nexttalk-frontend" />
+      {
+        NODE_ENV === 'production' ? (
+          <StarOnGithub repoURL="innovatorved/nexttalk-frontend" />
+        ):(<></>)
+      }
       {session?.user?.username ? (
         <Chat session={session} />
       ) : (
