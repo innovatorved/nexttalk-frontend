@@ -37,7 +37,7 @@ export default NextAuth({
         secure: process.env.NODE_ENV === 'production' ? true : false,
         domain:
           process.env.NODE_ENV === 'production'
-            ? '.nextinnovate.tech'
+            ? '.nexttalk.live'
             : 'localhost'
       }
     }

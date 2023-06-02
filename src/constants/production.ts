@@ -7,8 +7,7 @@ export const NEXTAUTH_SECRET = process.env.NEXTAUTH_SECRET as string;
 
 export const NEXT_PUBLIC_BASE_URL = process.env.NEXT_PUBLIC_BASE_URL as string;
 
-export const BACKEND_ENDPOINT = 'https://backend.nextinnovate.tech/graphql';
-export const WS_ENDPOINT =
-  'wss://backend.nextinnovate.tech/graphql/subscriptions';
-export const DOMAIN = 'backend.nextinnovate.tech';
+export const BACKEND_ENDPOINT = 'https://backend.nexttalk.live/graphql';
+export const WS_ENDPOINT = 'wss://backend.nexttalk.live/graphql/subscriptions';
+export const DOMAIN = 'backend.nexttalk.live';
 export const NODE_ENV = process.env.NODE_ENV || 'production';
