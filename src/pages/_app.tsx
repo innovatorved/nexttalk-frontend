@@ -12,6 +12,8 @@ import { client } from '../graphql/apollo-client';
 
 import { Toaster } from 'react-hot-toast';
 
+import { Analytics } from '@vercel/analytics/react';
+
 export default function App({
   Component,
   pageProps: { session, ...pageProps }
@@ -25,6 +27,7 @@ export default function App({
         <SessionProvider session={session}>
           <ChakraProvider theme={theme}>
             <Component {...pageProps} />
+            <Analytics />
             <Toaster position="bottom-right" reverseOrder={false} />
           </ChakraProvider>
           <Script
