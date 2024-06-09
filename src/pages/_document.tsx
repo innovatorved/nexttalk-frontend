@@ -5,7 +5,7 @@ export default function Document() {
   const meta = {
     title: 'NextTalk',
     description: 'Your Next Chat App',
-    url: 'https://nexttalk.nexttalk.live/',
+    url: 'https://nexttalk.vedgupta.in/',
     twitter: '@innovatorved'
   };
   return (
