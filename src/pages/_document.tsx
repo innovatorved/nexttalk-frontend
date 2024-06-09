@@ -4,7 +4,7 @@ import { Partytown } from '@builder.io/partytown/react';
 export default function Document() {
   const meta = {
     title: 'NextTalk',
-    description: 'Your Next Chat App',
+    description: 'Your Next Chat App with Next.js and Socket.io',
     url: 'https://nexttalk.vedgupta.in/',
     twitter: '@innovatorved'
   };
